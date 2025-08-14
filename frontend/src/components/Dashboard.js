@@ -129,37 +129,6 @@ const Dashboard = () => {
       <div>
         {renderContent()}
       </div>
-
-      {/* Quick Stats */}
-      {currentView === 'list' && (
-        <div style={{ 
-          backgroundColor: 'white', 
-          padding: '20px', 
-          borderRadius: '8px',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-          marginTop: '30px'
-        }}>
-          <h3 style={{ marginBottom: '15px', color: '#333' }}>📊 Quick Stats</h3>
-          <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#007bff' }}>🐛</div>
-              <div style={{ fontSize: '14px', color: '#666' }}>Bug Reports</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>💡</div>
-              <div style={{ fontSize: '14px', color: '#666' }}>Feature Requests</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#ffc107' }}>⚡</div>
-              <div style={{ fontSize: '14px', color: '#666' }}>Improvements</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#6c757d' }}>💬</div>
-              <div style={{ fontSize: '14px', color: '#666' }}>General</div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

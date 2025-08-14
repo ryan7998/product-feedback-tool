@@ -143,29 +143,106 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
       {/* Filters */}
       <div style={{ 
         backgroundColor: 'white', 
-        padding: '20px', 
-        borderRadius: '8px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        marginBottom: '20px'
+        padding: '25px', 
+        borderRadius: '12px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        marginBottom: '25px',
+        border: '1px solid #f0f0f0'
       }}>
-        <h3 style={{ marginBottom: '15px', color: '#333' }}>🔍 Filters</h3>
-        <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>Category</label>
-            <select
-              value={filters.category}
-              onChange={(e) => handleFilterChange('category', e.target.value)}
-              style={{
-                padding: '8px 12px',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-                fontSize: '14px'
-              }}
-            >
-              {categories.map(cat => (
-                <option key={cat.value} value={cat.value}>{cat.label}</option>
-              ))}
-            </select>
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: '12px', 
+          marginBottom: '20px' 
+        }}>
+          <div style={{
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#007bff',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '16px'
+          }}>
+            🔍
+          </div>
+          <h3 style={{ 
+            margin: '0', 
+            color: '#333', 
+            fontSize: '18px',
+            fontWeight: '600'
+          }}>
+            Filter & Search
+          </h3>
+        </div>
+        
+        <div style={{ 
+          display: 'flex', 
+          gap: '20px', 
+          flexWrap: 'wrap', 
+          alignItems: 'flex-end' 
+        }}>
+          <div style={{ minWidth: '200px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontSize: '14px', 
+              fontWeight: '500',
+              color: '#555'
+            }}>
+              Category Filter
+            </label>
+            <div style={{ position: 'relative' }}>
+              <select
+                value={filters.category}
+                onChange={(e) => handleFilterChange('category', e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: '2px solid #e1e5e9',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  backgroundColor: 'white',
+                  color: '#333',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  appearance: 'none',
+                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                  backgroundPosition: 'right 12px center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '16px',
+                  paddingRight: '40px'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#007bff';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e1e5e9';
+                  e.target.style.boxShadow = 'none';
+                }}
+              >
+                {categories.map(cat => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            padding: '8px 16px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '8px',
+            border: '1px solid #e9ecef'
+          }}>
+            <span style={{ fontSize: '12px', color: '#6c757d' }}>
+              💡 Tip: Use filters to quickly find specific types of feedback
+            </span>
           </div>
         </div>
       </div>
