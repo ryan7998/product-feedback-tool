@@ -1,14 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import config from '../../config/config';
 
-const MentionsInput = ({ value, onChange, placeholder, rows = 3, disabled = false }) => {
+const MentionsInput = ({ 
+  value, 
+  onChange, 
+  placeholder = "Type your message... Use **bold**, *italic*, `code`, and @mentions", 
+  rows = 3, 
+  disabled = false 
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [cursorPosition, setCursorPosition] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
-  
+
   const textareaRef = useRef(null);
   const dropdownRef = useRef(null);
   const searchTimeoutRef = useRef(null);
@@ -152,13 +158,56 @@ const MentionsInput = ({ value, onChange, placeholder, rows = 3, disabled = fals
         style={{
           width: '100%',
           padding: '12px',
-          border: '1px solid #ddd',
-          borderRadius: '4px',
-          fontSize: '16px',
+          border: '2px solid #e1e5e9',
+          borderRadius: '8px',
+          fontSize: '14px',
+          fontFamily: 'inherit',
           resize: 'vertical',
-          fontFamily: 'inherit'
+          minHeight: '80px',
+          transition: 'border-color 0.2s ease',
+          ...(disabled && { backgroundColor: '#f8f9fa', cursor: 'not-allowed' })
+        }}
+        onFocus={(e) => {
+          e.target.style.borderColor = '#007bff';
+          e.target.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.1)';
+        }}
+        onBlur={(e) => {
+          e.target.style.borderColor = '#e1e5e9';
+          e.target.style.boxShadow = 'none';
         }}
       />
+      
+      {/* Formatting Preview */}
+      {value && (
+        <div style={{ 
+          marginTop: '8px', 
+          padding: '8px', 
+          backgroundColor: '#f8f9fa', 
+          borderRadius: '6px',
+          fontSize: '12px',
+          color: '#666',
+          border: '1px solid #e9ecef'
+        }}>
+          <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>Preview:</div>
+          <div 
+            dangerouslySetInnerHTML={{ 
+              __html: value
+                .replace(/@([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/g, '<span style="background: #e3f2fd; color: #1976d2; padding: 1px 4px; border-radius: 8px; font-size: 0.9em;">@$1</span>')
+                .replace(/\*\*(.*?)\*\*/gs, '<strong style="color: #333;">$1</strong>')
+                .replace(/\*(.*?)\*/gs, '<em style="color: #555;">$1</em>')
+                .replace(/`(.*?)`/gs, function(match, code) {
+                  const escapedCode = code
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+                  return `<code style="background: #f8f9fa; color: #e83e8c; padding: 1px 4px; border-radius: 4px; font-family: monospace; border: 1px solid #e9ecef;">${escapedCode}</code>`;
+                })
+            }}
+          />
+        </div>
+      )}
       
       {/* @Mentions Dropdown */}
       {showDropdown && (

@@ -155,6 +155,38 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      {/* CSS for formatted comments */}
+      <style>
+        {`
+          .comment-formatted strong {
+            font-weight: bold;
+            color: #333;
+          }
+          .comment-formatted em {
+            font-style: italic;
+            color: #555;
+          }
+          .comment-formatted code {
+            background-color: #f8f9fa;
+            color: #e83e8c;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            border: 1px solid #e9ecef;
+          }
+          .comment-formatted .mention {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+          }
+        `}
+      </style>
+      
       {/* Back Button */}
       <div style={{ marginBottom: '20px' }}>
         <button
@@ -265,11 +297,33 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
               </label>
               <div style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
                 💡 Tip: Type @ to search and mention users. Names must start with capital letters (e.g., @John Smith)
+                <br />
+                📝 Formatting: Use **bold**, *italic*, and `code` for better expression
+              </div>
+              
+              {/* Formatting Help */}
+              <div style={{ 
+                backgroundColor: '#f8f9fa', 
+                padding: '12px', 
+                borderRadius: '8px', 
+                marginBottom: '12px',
+                border: '1px solid #e9ecef',
+                fontSize: '12px'
+              }}>
+                <div style={{ fontWeight: 'bold', marginBottom: '6px', color: '#495057' }}>
+                  🎨 Formatting Guide:
+                </div>
+                <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                  <span><strong>**bold**</strong> → <strong>bold</strong></span>
+                  <span><em>*italic*</em> → <em>italic</em></span>
+                  <span><code>`code`</code> → <code>code</code></span>
+                  <span style={{ color: '#1976d2' }}>@Name → <span style={{ backgroundColor: '#e3f2fd', padding: '2px 4px', borderRadius: '4px' }}>@Name</span></span>
+                </div>
               </div>
               <MentionsInput
                 value={newComment}
                 onChange={setNewComment}
-                placeholder="Share your thoughts on this feedback... Type @ to mention users"
+                placeholder="Share your thoughts... Use **bold**, *italic*, `code`, and @mentions"
                 rows={3}
                 disabled={submittingComment}
               />
@@ -345,7 +399,16 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
                   lineHeight: '1.5',
                   whiteSpace: 'pre-wrap'
                 }}>
-                  {parseCommentContent(comment.content)}
+                  {comment.formatted_content ? (
+                    <div 
+                      dangerouslySetInnerHTML={{ 
+                        __html: comment.formatted_content 
+                      }}
+                      className="comment-formatted"
+                    />
+                  ) : (
+                    parseCommentContent(comment.content)
+                  )}
                 </div>
               </div>
             ))}

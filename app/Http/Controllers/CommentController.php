@@ -36,6 +36,7 @@ class CommentController extends Controller
 
         $comment = $feedback->comments()->create([
             'content' => $validated['content'],
+            'formatted_content' => $this->parseCommentFormatting($validated['content']),
             'user_id' => Auth::id(),
             'mentions' => $this->extractMentions($validated['content'])
         ]);
@@ -73,6 +74,7 @@ class CommentController extends Controller
 
         $comment->update([
             'content' => $validated['content'],
+            'formatted_content' => $this->parseCommentFormatting($validated['content']),
             'mentions' => $this->extractMentions($validated['content'])
         ]);
 
@@ -152,5 +154,29 @@ class CommentController extends Controller
         }
 
         return $mentions;
+    }
+
+    /**
+     * Parse comment content for basic formatting.
+     * Supports: **bold**, *italic*, `code`, and @mentions
+     */
+    private function parseCommentFormatting(string $content): string
+    {
+        // Parse @mentions first (preserve them)
+        $content = preg_replace('/@([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/', '<span class="mention">@$1</span>', $content);
+
+        // Parse **bold** text
+        $content = preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', $content);
+
+        // Parse *italic* text
+        $content = preg_replace('/\*(.*?)\*/s', '<em>$1</em>', $content);
+
+        // Parse `code` blocks - escape HTML characters
+        $content = preg_replace_callback('/`(.*?)`/s', function ($matches) {
+            $code = htmlspecialchars($matches[1], ENT_QUOTES, 'UTF-8');
+            return "<code>{$code}</code>";
+        }, $content);
+
+        return $content;
     }
 }
