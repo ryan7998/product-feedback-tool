@@ -29,7 +29,6 @@ const config = {
       UPDATE: (id) => `/feedback/${id}`,
       DELETE: (id) => `/feedback/${id}`,
       BY_CATEGORY: (category) => `/feedback/category/${category}`,
-      BY_STATUS: (status) => `/feedback/status/${status}`,
     },
     COMMENTS: {
       LIST: (feedbackId) => `/feedback/${feedbackId}/comments`,

@@ -5,128 +5,96 @@ namespace App\Http\Controllers;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class FeedbackController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the feedback.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $feedback = Feedback::with(['user', 'comments.user'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+        $query = Feedback::with('user')->orderBy('created_at', 'desc');
 
-        return response()->json([
-            'data' => $feedback->items(),
-            'pagination' => [
-                'current_page' => $feedback->currentPage(),
-                'last_page' => $feedback->lastPage(),
-                'per_page' => $feedback->perPage(),
-                'total' => $feedback->total(),
-            ]
-        ]);
+        // Apply filters
+        if ($request->has('category') && $request->category) {
+            $query->byCategory($request->category);
+        }
+
+        $feedback = $query->paginate(15);
+
+        return response()->json($feedback);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created feedback in storage.
      */
     public function store(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:10000',
+            'description' => 'required|string',
             'category' => 'required|in:bug_report,feature_request,improvement,general',
-            'priority' => 'sometimes|in:low,medium,high,urgent',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
         $feedback = Feedback::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'category' => $request->category,
-            'priority' => $request->priority ?? 'medium',
-            'user_id' => $request->user()->id,
+            ...$validated,
+            'user_id' => Auth::id(),
         ]);
 
         $feedback->load('user');
 
         return response()->json([
             'message' => 'Feedback created successfully',
-            'data' => $feedback
+            'feedback' => $feedback
         ], 201);
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified feedback.
      */
-    public function show(string $id): JsonResponse
+    public function show(Feedback $feedback): JsonResponse
     {
-        $feedback = Feedback::with(['user', 'comments.user'])
-            ->findOrFail($id);
+        $feedback->load(['user', 'comments.user']);
 
         return response()->json([
-            'data' => $feedback
+            'feedback' => $feedback
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified feedback in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(Request $request, Feedback $feedback): JsonResponse
     {
-        $feedback = Feedback::findOrFail($id);
-
-        // Check if user owns this feedback or is admin
-        if ($feedback->user_id !== $request->user()->id) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 403);
+        // Check if user owns this feedback
+        if ($feedback->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string|max:10000',
-            'category' => 'sometimes|in:bug_report,feature_request,improvement,general',
-            'priority' => 'sometimes|in:low,medium,high,urgent',
-            'status' => 'sometimes|in:open,in_progress,resolved,closed',
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|in:bug_report,feature_request,improvement,general',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $feedback->update($request->only(['title', 'description', 'category', 'priority', 'status']));
+        $feedback->update($validated);
         $feedback->load('user');
 
         return response()->json([
             'message' => 'Feedback updated successfully',
-            'data' => $feedback
+            'feedback' => $feedback
         ]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified feedback from storage.
      */
-    public function destroy(string $id): JsonResponse
+    public function destroy(Feedback $feedback): JsonResponse
     {
-        $feedback = Feedback::findOrFail($id);
-
-        // Check if user owns this feedback or is admin
-        if ($feedback->user_id !== request()->user()->id) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 403);
+        // Check if user owns this feedback
+        if ($feedback->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $feedback->delete();
@@ -137,66 +105,15 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Get feedback by category
+     * Get feedback by category.
      */
     public function getByCategory(string $category): JsonResponse
     {
-        $validator = Validator::make(['category' => $category], [
-            'category' => 'required|in:bug_report,feature_request,improvement,general',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Invalid category',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $feedback = Feedback::with(['user', 'comments.user'])
-            ->where('category', $category)
+        $feedback = Feedback::with('user')
+            ->byCategory($category)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        return response()->json([
-            'data' => $feedback->items(),
-            'pagination' => [
-                'current_page' => $feedback->currentPage(),
-                'last_page' => $feedback->lastPage(),
-                'per_page' => $feedback->perPage(),
-                'total' => $feedback->total(),
-            ]
-        ]);
-    }
-
-    /**
-     * Get feedback by status
-     */
-    public function getByStatus(string $status): JsonResponse
-    {
-        $validator = Validator::make(['status' => $status], [
-            'status' => 'required|in:open,in_progress,resolved,closed',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Invalid status',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $feedback = Feedback::with(['user', 'comments.user'])
-            ->where('status', $status)
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
-
-        return response()->json([
-            'data' => $feedback->items(),
-            'pagination' => [
-                'current_page' => $feedback->currentPage(),
-                'last_page' => $feedback->lastPage(),
-                'per_page' => $feedback->perPage(),
-                'total' => $feedback->total(),
-            ]
-        ]);
+        return response()->json($feedback);
     }
 }

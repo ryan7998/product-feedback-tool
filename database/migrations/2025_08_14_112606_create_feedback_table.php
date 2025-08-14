@@ -16,13 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->enum('category', ['bug_report', 'feature_request', 'improvement', 'general']);
-            $table->enum('status', ['open', 'in_progress', 'resolved', 'closed'])->default('open');
-            $table->enum('priority', ['low', 'medium', 'high', 'urgent'])->default('medium');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-
-            // Indexes for better performance
-            $table->index(['category', 'status']);
+            $table->index(['category']);
             $table->index(['user_id', 'created_at']);
         });
     }
