@@ -97,6 +97,53 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
     return categoryMap[category] || '📝';
   };
 
+  /**
+   * Parse comment content and highlight @mentions
+   */
+  const parseCommentContent = (content) => {
+    // Split content by @mentions and preserve the @mentions
+    const parts = content.split(/(@\w+)/);
+    
+    return parts.map((part, index) => {
+      if (part.match(/^@\w+$/)) {
+        // This is a mention - style it specially
+        return (
+          <span
+            key={index}
+            style={{
+              backgroundColor: '#e3f2fd',
+              color: '#1976d2',
+              padding: '2px 6px',
+              borderRadius: '12px',
+              fontSize: '0.9em',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+            title={`Mentioned user: ${part.substring(1)}`}
+          >
+            {part}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+
+  /**
+   * Get mentioned users display text
+   */
+  const getMentionsText = (mentions) => {
+    if (!mentions || mentions.length === 0) return null;
+    
+    if (mentions.length === 1) {
+      return `Mentioned ${mentions[0].name}`;
+    } else if (mentions.length === 2) {
+      return `Mentioned ${mentions[0].name} and ${mentions[1].name}`;
+    } else {
+      return `Mentioned ${mentions[0].name} and ${mentions.length - 1} others`;
+    }
+  };
+
   if (!feedback) {
     return (
       <div style={{ textAlign: 'center', padding: '40px' }}>
@@ -215,6 +262,9 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
               <label htmlFor="comment" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
                 Add a Comment
               </label>
+              <div style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
+                💡 Tip: Use @username to mention other users (e.g., @John)
+              </div>
               <textarea
                 id="comment"
                 value={newComment}
@@ -230,7 +280,7 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
                   resize: 'vertical',
                   fontFamily: 'inherit'
                 }}
-                placeholder="Share your thoughts on this feedback..."
+                placeholder="Share your thoughts on this feedback... Use @username to mention others"
               />
             </div>
             <button
@@ -285,12 +335,26 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
                     </span>
                   </div>
                 </div>
+                
+                {/* Mentions Info */}
+                {comment.mentions && comment.mentions.length > 0 && (
+                  <div style={{ 
+                    marginBottom: '8px',
+                    fontSize: '12px',
+                    color: '#666',
+                    fontStyle: 'italic'
+                  }}>
+                    {getMentionsText(comment.mentions)}
+                  </div>
+                )}
+                
+                {/* Comment Content with Parsed Mentions */}
                 <div style={{ 
                   color: '#555',
                   lineHeight: '1.5',
                   whiteSpace: 'pre-wrap'
                 }}>
-                  {comment.content}
+                  {parseCommentContent(comment.content)}
                 </div>
               </div>
             ))}

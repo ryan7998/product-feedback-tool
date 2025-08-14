@@ -2,30 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comment extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'content',
         'feedback_id',
         'user_id',
         'parent_id',
-        'mentions',
+        'mentions'
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected $casts = [
         'mentions' => 'array',
         'created_at' => 'datetime',
@@ -49,7 +42,7 @@ class Comment extends Model
     }
 
     /**
-     * Get the parent comment.
+     * Get the parent comment (for nested comments).
      */
     public function parent(): BelongsTo
     {
@@ -65,31 +58,15 @@ class Comment extends Model
     }
 
     /**
-     * Get the mentioned users.
+     * Get the users mentioned in this comment.
      */
-    public function mentionedUsers(): BelongsToMany
+    public function mentionedUsers(): BelongsTo
     {
-        return $this->belongsToMany(User::class, 'comment_mentions', 'comment_id', 'user_id');
+        return $this->belongsTo(User::class, 'mentions');
     }
 
     /**
-     * Scope to get only top-level comments.
-     */
-    public function scopeTopLevel($query)
-    {
-        return $query->whereNull('parent_id');
-    }
-
-    /**
-     * Scope to get only replies.
-     */
-    public function scopeReplies($query)
-    {
-        return $query->whereNotNull('parent_id');
-    }
-
-    /**
-     * Check if comment has replies.
+     * Check if this comment has replies.
      */
     public function hasReplies(): bool
     {
@@ -97,10 +74,26 @@ class Comment extends Model
     }
 
     /**
-     * Check if comment is a reply.
+     * Check if this comment is a reply to another comment.
      */
     public function isReply(): bool
     {
         return !is_null($this->parent_id);
+    }
+
+    /**
+     * Scope to get only top-level comments (no parent).
+     */
+    public function scopeTopLevel($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    /**
+     * Scope to get only replies to a specific comment.
+     */
+    public function scopeReplies($query, $parentId)
+    {
+        return $query->where('parent_id', $parentId);
     }
 }

@@ -189,6 +189,17 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
                     : item.description
                   }
                 </p>
+                
+                {/* Comment Count */}
+                {item.comments_count > 0 && (
+                  <div style={{ 
+                    fontSize: '14px', 
+                    color: '#007bff',
+                    marginBottom: '10px'
+                  }}>
+                    💬 {item.comments_count} comment{item.comments_count !== 1 ? 's' : ''}
+                  </div>
+                )}
               </div>
               
               <div style={{ textAlign: 'right', marginLeft: '20px' }}>
