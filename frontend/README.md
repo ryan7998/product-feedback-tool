@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# Product Feedback Tool - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React frontend for the Product Feedback Tool application.
 
-## Available Scripts
+## Configuration
 
-In the project directory, you can run:
+### Environment Variables
 
-### `npm start`
+Create a `.env` file in the frontend directory with the following variables:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+# API Configuration
+REACT_APP_API_URL=http://127.0.0.1:8000/api
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# App Configuration
+REACT_APP_NAME=Product Feedback Tool
+REACT_APP_VERSION=1.0.0
 
-### `npm test`
+# Feature Flags
+REACT_APP_ENABLE_DEBUG=true
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Note:** All React environment variables must start with `REACT_APP_`
 
-### `npm run build`
+### Default Configuration
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If no `.env` file is provided, the app will use these defaults:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-   **API URL**: `http://127.0.0.1:8000/api`
+-   **App Name**: `Product Feedback Tool`
+-   **Version**: `1.0.0`
+-   **Debug**: Enabled in development mode
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Development
 
-### `npm run eject`
+### Prerequisites
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-   Node.js 16+
+-   npm or yarn
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Installation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Running the App
 
-## Learn More
+```bash
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The app will run on `http://localhost:3000`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Building for Production
 
-### Code Splitting
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Project Structure
 
-### Analyzing the Bundle Size
+```
+src/
+├── components/          # React components
+│   ├── auth/           # Authentication components
+│   │   ├── Login.js    # Login form
+│   │   ├── Register.js # Registration form
+│   │   └── AuthContainer.js # Auth container
+│   └── Dashboard.js    # Main dashboard
+├── contexts/            # React contexts
+│   └── AuthContext.js  # Authentication context
+├── config/              # Configuration files
+│   └── config.js       # App configuration
+└── App.js              # Main app component
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Features
 
-### Making a Progressive Web App
+-   ✅ User Authentication (Login/Register)
+-   ✅ Token Management
+-   ✅ Protected Routes
+-   ✅ Responsive Design
+-   ✅ Error Handling
+-   ✅ Loading States
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## API Integration
 
-### Advanced Configuration
+The frontend communicates with the Laravel backend API through:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+-   **Base URL**: Configurable via `REACT_APP_API_URL`
+-   **Authentication**: Bearer token in Authorization header
+-   **CORS**: Configured for cross-origin requests
+-   **Endpoints**: Centralized in `config.js`
 
-### Deployment
+## Next Steps
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   [ ] Feedback Management
+-   [ ] Comment System
+-   [ ] User Dashboard
+-   [ ] Admin Features
