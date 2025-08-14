@@ -30,7 +30,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Feedback routes
     Route::apiResource('feedback', FeedbackController::class);
     Route::get('/feedback/category/{category}', [FeedbackController::class, 'getByCategory']);
-    Route::get('/feedback/status/{status}', [FeedbackController::class, 'getByStatus']);
 
     // Comment routes
     Route::apiResource('feedback.comments', CommentController::class);

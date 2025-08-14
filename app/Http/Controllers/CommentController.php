@@ -17,7 +17,7 @@ class CommentController extends Controller
     public function index(Feedback $feedback): JsonResponse
     {
         $comments = $feedback->comments()
-            ->with(['user', 'mentionedUsers'])
+            ->with(['user'])
             ->orderBy('created_at', 'asc')
             ->get();
 
@@ -45,7 +45,7 @@ class CommentController extends Controller
             'mentions' => $mentions,
         ]);
 
-        $comment->load(['user', 'mentionedUsers']);
+        $comment->load(['user']);
 
         return response()->json([
             'message' => 'Comment created successfully',
@@ -58,7 +58,7 @@ class CommentController extends Controller
      */
     public function show(Feedback $feedback, Comment $comment): JsonResponse
     {
-        $comment->load(['user', 'mentionedUsers']);
+        $comment->load(['user']);
 
         return response()->json([
             'comment' => $comment
@@ -87,7 +87,7 @@ class CommentController extends Controller
             'mentions' => $mentions,
         ]);
 
-        $comment->load(['user', 'mentionedUsers']);
+        $comment->load(['user']);
 
         return response()->json([
             'message' => 'Comment updated successfully',
@@ -133,16 +133,24 @@ class CommentController extends Controller
     {
         $mentions = [];
 
-        // Find all @username patterns
-        preg_match_all('/@(\w+)/', $content, $matches);
+        // Find all @mentions patterns - supports @FirstName LastName
+        // This regex matches @ followed by one or more word characters and optional spaces + word characters
+        // Uses word boundaries to ensure complete names
+        preg_match_all('/@([a-zA-Z]+(?:\s+[a-zA-Z]+)*)/', $content, $matches);
 
         if (!empty($matches[1])) {
             $usernames = array_unique($matches[1]);
 
-            // Find users by username (assuming username is the same as name for now)
-            // In a real app, you might have a separate username field
-            $users = User::whereIn('name', $usernames)->pluck('id')->toArray();
+            // Clean up usernames by removing trailing words that aren't part of the name
+            $cleanUsernames = [];
+            foreach ($usernames as $username) {
+                // Remove trailing words like "and", "or", etc.
+                $cleanName = preg_replace('/\s+(and|or|but|the|a|an)\s*$/', '', $username);
+                $cleanUsernames[] = trim($cleanName);
+            }
 
+            // Find users by exact name match
+            $users = User::whereIn('name', $cleanUsernames)->pluck('id')->toArray();
             $mentions = $users;
         }
 

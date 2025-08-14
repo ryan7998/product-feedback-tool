@@ -58,14 +58,6 @@ class Comment extends Model
     }
 
     /**
-     * Get the users mentioned in this comment.
-     */
-    public function mentionedUsers(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'mentions');
-    }
-
-    /**
      * Check if this comment has replies.
      */
     public function hasReplies(): bool

@@ -102,10 +102,11 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
    */
   const parseCommentContent = (content) => {
     // Split content by @mentions and preserve the @mentions
-    const parts = content.split(/(@\w+)/);
+    // Updated to handle full names with spaces like @John Smith
+    const parts = content.split(/(@[a-zA-Z]+(?:\s+[a-zA-Z]+)*)/);
     
     return parts.map((part, index) => {
-      if (part.match(/^@\w+$/)) {
+      if (part.match(/^@[a-zA-Z]+(?:\s+[a-zA-Z]+)*$/)) {
         // This is a mention - style it specially
         return (
           <span
@@ -135,12 +136,12 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
   const getMentionsText = (mentions) => {
     if (!mentions || mentions.length === 0) return null;
     
+    // Since mentions is now an array of user IDs, we need to find the users
+    // For now, we'll just show the count, but in a real app you'd want to fetch user details
     if (mentions.length === 1) {
-      return `Mentioned ${mentions[0].name}`;
-    } else if (mentions.length === 2) {
-      return `Mentioned ${mentions[0].name} and ${mentions[1].name}`;
+      return `Mentioned 1 user`;
     } else {
-      return `Mentioned ${mentions[0].name} and ${mentions.length - 1} others`;
+      return `Mentioned ${mentions.length} users`;
     }
   };
 
@@ -263,7 +264,7 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
                 Add a Comment
               </label>
               <div style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
-                💡 Tip: Use @username to mention other users (e.g., @John)
+                💡 Tip: Use @FullName to mention other users (e.g., @John Smith, @Sarah Johnson)
               </div>
               <textarea
                 id="comment"
@@ -280,7 +281,7 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
                   resize: 'vertical',
                   fontFamily: 'inherit'
                 }}
-                placeholder="Share your thoughts on this feedback... Use @username to mention others"
+                placeholder="Share your thoughts on this feedback... Use @FullName to mention others (e.g., @John Smith)"
               />
             </div>
             <button
