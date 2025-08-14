@@ -38,6 +38,9 @@ const config = {
       DELETE: (feedbackId, commentId) => `/feedback/${feedbackId}/comments/${commentId}`,
       BY_USER: (userId) => `/comments/user/${userId}`,
     },
+    USERS: {
+      SEARCH: '/users/search',
+    },
     HEALTH: '/health',
   },
 };

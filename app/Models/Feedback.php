@@ -23,29 +23,27 @@ class Feedback extends Model
         'updated_at' => 'datetime',
     ];
 
+    /**
+     * Get the user who submitted this feedback.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get all comments for this feedback.
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Get only top-level comments (no parent).
+     */
     public function topLevelComments(): HasMany
     {
         return $this->hasMany(Comment::class)->whereNull('parent_id');
-    }
-
-    // Query scopes
-    public function scopeByCategory($query, $category)
-    {
-        return $query->where('category', $category);
-    }
-
-    public function scopeByUser($query, $userId)
-    {
-        return $query->where('user_id', $userId);
     }
 }

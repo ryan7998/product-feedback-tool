@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Feedback;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class CommentController extends Controller
 {
@@ -18,31 +19,25 @@ class CommentController extends Controller
     {
         $comments = $feedback->comments()
             ->with(['user'])
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        return response()->json([
-            'data' => $comments
-        ]);
+        return response()->json($comments);
     }
 
     /**
-     * Store a newly created comment in storage.
+     * Store a newly created comment.
      */
     public function store(Request $request, Feedback $feedback): JsonResponse
     {
         $validated = $request->validate([
-            'content' => 'required|string|max:5000',
+            'content' => 'required|string|max:1000',
         ]);
 
-        // Extract mentions from content
-        $mentions = $this->extractMentions($validated['content']);
-
-        $comment = Comment::create([
+        $comment = $feedback->comments()->create([
             'content' => $validated['content'],
-            'feedback_id' => $feedback->id,
             'user_id' => Auth::id(),
-            'mentions' => $mentions,
+            'mentions' => $this->extractMentions($validated['content'])
         ]);
 
         $comment->load(['user']);
@@ -59,32 +54,26 @@ class CommentController extends Controller
     public function show(Feedback $feedback, Comment $comment): JsonResponse
     {
         $comment->load(['user']);
-
-        return response()->json([
-            'comment' => $comment
-        ]);
+        return response()->json(['data' => $comment]);
     }
 
     /**
-     * Update the specified comment in storage.
+     * Update the specified comment.
      */
     public function update(Request $request, Feedback $feedback, Comment $comment): JsonResponse
     {
-        // Check if user owns this comment
+        // Check if user owns the comment
         if ($comment->user_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $validated = $request->validate([
-            'content' => 'required|string|max:5000',
+            'content' => 'required|string|max:1000',
         ]);
-
-        // Extract mentions from updated content
-        $mentions = $this->extractMentions($validated['content']);
 
         $comment->update([
             'content' => $validated['content'],
-            'mentions' => $mentions,
+            'mentions' => $this->extractMentions($validated['content'])
         ]);
 
         $comment->load(['user']);
@@ -96,24 +85,22 @@ class CommentController extends Controller
     }
 
     /**
-     * Remove the specified comment from storage.
+     * Remove the specified comment.
      */
     public function destroy(Feedback $feedback, Comment $comment): JsonResponse
     {
-        // Check if user owns this comment
+        // Check if user owns the comment
         if ($comment->user_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $comment->delete();
 
-        return response()->json([
-            'message' => 'Comment deleted successfully'
-        ]);
+        return response()->json(['message' => 'Comment deleted successfully']);
     }
 
     /**
-     * Get comments by user.
+     * Get comments by a specific user.
      */
     public function getByUser(User $user): JsonResponse
     {
@@ -126,6 +113,25 @@ class CommentController extends Controller
     }
 
     /**
+     * Search users for @mentions.
+     */
+    public function searchUsers(Request $request): JsonResponse
+    {
+        $query = $request->get('q', '');
+
+        if (strlen($query) < 2) {
+            return response()->json(['data' => []]);
+        }
+
+        $users = User::where('name', 'LIKE', "%{$query}%")
+            ->select(['id', 'name', 'email'])
+            ->limit(10)
+            ->get();
+
+        return response()->json(['data' => $users]);
+    }
+
+    /**
      * Extract @mentions from comment content.
      * Returns array of user IDs that were mentioned.
      */
@@ -134,23 +140,14 @@ class CommentController extends Controller
         $mentions = [];
 
         // Find all @mentions patterns - supports @FirstName LastName
-        // This regex matches @ followed by one or more word characters and optional spaces + word characters
-        // Uses word boundaries to ensure complete names
-        preg_match_all('/@([a-zA-Z]+(?:\s+[a-zA-Z]+)*)/', $content, $matches);
+        // Use a regex that captures names more precisely by looking for common patterns
+        preg_match_all('/@([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/', $content, $matches);
 
         if (!empty($matches[1])) {
             $usernames = array_unique($matches[1]);
 
-            // Clean up usernames by removing trailing words that aren't part of the name
-            $cleanUsernames = [];
-            foreach ($usernames as $username) {
-                // Remove trailing words like "and", "or", etc.
-                $cleanName = preg_replace('/\s+(and|or|but|the|a|an)\s*$/', '', $username);
-                $cleanUsernames[] = trim($cleanName);
-            }
-
             // Find users by exact name match
-            $users = User::whereIn('name', $cleanUsernames)->pluck('id')->toArray();
+            $users = User::whereIn('name', $usernames)->pluck('id')->toArray();
             $mentions = $users;
         }
 

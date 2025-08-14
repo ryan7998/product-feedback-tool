@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FeedbackController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +21,14 @@ use App\Http\Controllers\CommentController;
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
+// Health check endpoint
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+});
+
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
-    // Authentication
+    // Auth routes
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/user', [AuthController::class, 'user']);
 
@@ -34,9 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
     // Comment routes
     Route::apiResource('feedback.comments', CommentController::class);
     Route::get('/comments/user/{user}', [CommentController::class, 'getByUser']);
-});
-
-// Health check route
-Route::get('/health', function () {
-    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+    Route::get('/users/search', [CommentController::class, 'searchUsers']);
 });

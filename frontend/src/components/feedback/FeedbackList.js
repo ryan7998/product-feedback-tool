@@ -46,10 +46,20 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
         throw new Error(result.message || 'Failed to fetch feedback');
       }
 
-      setFeedback(result.data);
+      // Handle pagination object structure
+      const feedbackData = result.data || [];
+      if (!Array.isArray(feedbackData)) {
+        console.error('Expected feedback data to be an array, got:', typeof feedbackData, feedbackData);
+        setFeedback([]);
+        setTotalPages(1);
+        return;
+      }
+
+      setFeedback(feedbackData);
       setTotalPages(result.last_page || 1);
     } catch (error) {
       setError(error.message);
+      setFeedback([]); // Ensure feedback is always an array
     } finally {
       setLoading(false);
     }

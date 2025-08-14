@@ -26,7 +26,7 @@ class Comment extends Model
     ];
 
     /**
-     * Get the feedback that owns the comment.
+     * Get the feedback this comment belongs to.
      */
     public function feedback(): BelongsTo
     {
@@ -34,7 +34,7 @@ class Comment extends Model
     }
 
     /**
-     * Get the user that owns the comment.
+     * Get the user who wrote this comment.
      */
     public function user(): BelongsTo
     {
@@ -42,7 +42,7 @@ class Comment extends Model
     }
 
     /**
-     * Get the parent comment (for nested comments).
+     * Get the parent comment if this is a reply.
      */
     public function parent(): BelongsTo
     {
@@ -50,7 +50,7 @@ class Comment extends Model
     }
 
     /**
-     * Get the replies to this comment.
+     * Get replies to this comment.
      */
     public function replies(): HasMany
     {
@@ -58,34 +58,15 @@ class Comment extends Model
     }
 
     /**
-     * Check if this comment has replies.
+     * Get the users mentioned in this comment.
+     * This returns a collection of User models based on the mentions array.
      */
-    public function hasReplies(): bool
+    public function getMentionedUsersAttribute()
     {
-        return $this->replies()->exists();
-    }
+        if (empty($this->mentions)) {
+            return collect();
+        }
 
-    /**
-     * Check if this comment is a reply to another comment.
-     */
-    public function isReply(): bool
-    {
-        return !is_null($this->parent_id);
-    }
-
-    /**
-     * Scope to get only top-level comments (no parent).
-     */
-    public function scopeTopLevel($query)
-    {
-        return $query->whereNull('parent_id');
-    }
-
-    /**
-     * Scope to get only replies to a specific comment.
-     */
-    public function scopeReplies($query, $parentId)
-    {
-        return $query->where('parent_id', $parentId);
+        return User::whereIn('id', $this->mentions)->get();
     }
 }

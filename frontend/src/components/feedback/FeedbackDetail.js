@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import config from '../../config/config';
+import MentionsInput from '../common/MentionsInput';
 
 const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
   const { user } = useAuth();
@@ -35,7 +36,7 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
         throw new Error(result.message || 'Failed to fetch comments');
       }
 
-      setComments(result.data || []);
+      setComments(result || []);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -102,11 +103,12 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
    */
   const parseCommentContent = (content) => {
     // Split content by @mentions and preserve the @mentions
-    // Updated to handle full names with spaces like @John Smith
-    const parts = content.split(/(@[a-zA-Z]+(?:\s+[a-zA-Z]+)*)/);
+    // Use the same regex as the backend for consistency
+    const parts = content.split(/(@[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/);
     
     return parts.map((part, index) => {
-      if (part.match(/^@[a-zA-Z]+(?:\s+[a-zA-Z]+)*$/)) {
+      // Check if this part is a @mention (starts with @ and contains proper name capitalization)
+      if (part.match(/^@[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*$/)) {
         // This is a mention - style it specially
         return (
           <span
@@ -136,8 +138,6 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
   const getMentionsText = (mentions) => {
     if (!mentions || mentions.length === 0) return null;
     
-    // Since mentions is now an array of user IDs, we need to find the users
-    // For now, we'll just show the count, but in a real app you'd want to fetch user details
     if (mentions.length === 1) {
       return `Mentioned 1 user`;
     } else {
@@ -264,24 +264,14 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
                 Add a Comment
               </label>
               <div style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
-                💡 Tip: Use @FullName to mention other users (e.g., @John Smith, @Sarah Johnson)
+                💡 Tip: Type @ to search and mention users. Names must start with capital letters (e.g., @John Smith)
               </div>
-              <textarea
-                id="comment"
+              <MentionsInput
                 value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                required
-                rows="3"
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  resize: 'vertical',
-                  fontFamily: 'inherit'
-                }}
-                placeholder="Share your thoughts on this feedback... Use @FullName to mention others (e.g., @John Smith)"
+                onChange={setNewComment}
+                placeholder="Share your thoughts on this feedback... Type @ to mention users"
+                rows={3}
+                disabled={submittingComment}
               />
             </div>
             <button
