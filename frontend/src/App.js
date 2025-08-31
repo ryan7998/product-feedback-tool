@@ -23,14 +23,6 @@ function App() {
   return (
     <AuthProvider>
       <div className="App relative">
-        {/* Global Dot Pattern Background */}
-        <div 
-          className="fixed inset-0 opacity-15 pointer-events-none -z-10"
-          style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, #6366f1 1px, transparent 0)',
-            backgroundSize: '24px 24px'
-          }}
-        ></div>
         <AppContent />
       </div>
     </AuthProvider>

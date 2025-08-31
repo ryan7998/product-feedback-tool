@@ -64,10 +64,18 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gray-50/60 relative">
+      {/* Dot Pattern Background */}
+      <div 
+        className="absolute inset-0 opacity-25 pointer-events-none"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, #6366f1 1px, transparent 0)',
+          backgroundSize: '24px 24px'
+        }}
+      ></div>
+      <div className="max-w-6xl mx-auto p-8 relative z-10">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 relative z-20">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3 mb-2">
@@ -114,7 +122,7 @@ const Dashboard = () => {
         </div>
 
         {/* Main Content */}
-        <div>
+        <div className="p-8 relative z-10">
           {renderContent()}
         </div>
       </div>

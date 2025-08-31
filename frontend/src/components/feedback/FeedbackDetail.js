@@ -150,8 +150,8 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
-      <div className="max-w-4xl mx-auto p-8 relative">
+    <div className="w-full">
+      <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <div className="mb-6">
           <button
