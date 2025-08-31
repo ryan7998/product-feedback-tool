@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import FeedbackList from './feedback/FeedbackList';
 import FeedbackForm from './feedback/FeedbackForm';
 import FeedbackDetail from './feedback/FeedbackDetail';
+import { Footer } from './ui';
 import { Rocket, MessageSquare, Plus, LogOut, User } from 'lucide-react';
 
 const Dashboard = () => {
@@ -67,7 +68,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50/60 relative">
       {/* Dot Pattern Background */}
       <div 
-        className="absolute inset-0 opacity-25 pointer-events-none"
+        className="absolute inset-0 opacity-25 pointer-events-none z-0"
         style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, #6366f1 1px, transparent 0)',
           backgroundSize: '24px 24px'
@@ -126,6 +127,9 @@ const Dashboard = () => {
           {renderContent()}
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

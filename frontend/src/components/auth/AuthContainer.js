@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Login from './Login';
 import Register from './Register';
+import { Footer } from '../ui';
 
 const AuthContainer = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,27 +10,20 @@ const AuthContainer = () => {
   const switchToLogin = () => setIsLogin(true);
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#f8f9fa'
-    }}>
-      <div style={{ 
-        backgroundColor: 'white', 
-        borderRadius: '8px', 
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        width: '100%',
-        maxWidth: '500px'
-      }}>
-        {isLogin ? (
-          <Login onSwitchToRegister={switchToRegister} />
-        ) : (
-          <Register onSwitchToLogin={switchToLogin} />
-        )}
+    <div className="min-h-screen flex flex-col">
+      {/* Main Content Area */}
+      <div className="flex-1 flex items-center justify-center bg-gray-50 p-8">
+        <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg">
+          {isLogin ? (
+            <Login onSwitchToRegister={switchToRegister} />
+          ) : (
+            <Register onSwitchToLogin={switchToLogin} />
+          )}
+        </div>
       </div>
+      
+      {/* Footer - Full Width */}
+      <Footer />
     </div>
   );
 };

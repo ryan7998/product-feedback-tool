@@ -6,3 +6,4 @@ export { default as AuthHeader } from './AuthHeader';
 export { default as Loader } from './Loader';
 export { default as LoadingOverlay } from './LoadingOverlay';
 export { default as LoadingSkeleton } from './LoadingSkeleton';
+export { default as Footer } from '../common/Footer';
