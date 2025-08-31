@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import FeedbackList from './feedback/FeedbackList';
 import FeedbackForm from './feedback/FeedbackForm';
 import FeedbackDetail from './feedback/FeedbackDetail';
+import { Rocket, MessageSquare, Plus, LogOut, User } from 'lucide-react';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -63,71 +64,59 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      {/* Header */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: '30px',
-        padding: '20px',
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-      }}>
-        <div>
-          <h1>🚀 Product Feedback Tool</h1>
-          <p>Welcome back, <strong>{user?.name}</strong>!</p>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3 mb-2">
+                <Rocket className="w-8 h-8 text-indigo-600" />
+                Product Feedback Tool
+              </h1>
+              <p className="text-gray-600 flex items-center gap-2">
+                <User className="w-4 h-4 text-gray-500" />
+                Welcome back, <strong className="text-gray-800">{user?.name}</strong>!
+              </p>
+            </div>
+            <div className="flex gap-4 items-center">
+              <button
+                onClick={() => setCurrentView('list')}
+                className={`px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+                  currentView === 'list' 
+                    ? 'bg-indigo-600 text-white' 
+                    : 'bg-gray-600 text-white hover:bg-gray-700'
+                }`}
+              >
+                <MessageSquare className="w-4 h-4" />
+                Feedback List
+              </button>
+              <button
+                onClick={() => setCurrentView('form')}
+                className={`px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+                  currentView === 'form' 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-gray-600 text-white hover:bg-gray-700'
+                }`}
+              >
+                <Plus className="w-4 h-4" />
+                Submit Feedback
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            </div>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-          <button
-            onClick={() => setCurrentView('list')}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: currentView === 'list' ? '#007bff' : '#6c757d',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '16px'
-            }}
-          >
-            📋 Feedback List
-          </button>
-          <button
-            onClick={() => setCurrentView('form')}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: currentView === 'form' ? '#28a745' : '#6c757d',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '16px'
-            }}
-          >
-            ✨ Submit Feedback
-          </button>
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#dc3545',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '16px'
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
 
-      {/* Main Content */}
-      <div>
-        {renderContent()}
+        {/* Main Content */}
+        <div>
+          {renderContent()}
+        </div>
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ const Register = ({ onSwitchToLogin }) => {
       {/* Main Content Card */}
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-10 relative z-10">
         <AuthHeader
-          subtitle="Create your account! 🚀"
+          subtitle="Create your account!"
           description="Join us and start sharing your feedback with the community"
         />
         

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import config from '../../config/config';
+import { LoadingSkeleton } from '../../components/ui';
+import { Search, Bug, Lightbulb, Zap, MessageCircle, FileText, Eye, Edit, Trash2, MessageSquare } from 'lucide-react';
 
 const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
   const { user } = useAuth();
@@ -15,15 +17,11 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
 
   const categories = [
     { value: '', label: 'All Categories' },
-    { value: 'bug_report', label: '🐛 Bug Report' },
-    { value: 'feature_request', label: '💡 Feature Request' },
-    { value: 'improvement', label: '⚡ Improvement' },
-    { value: 'general', label: '💬 General Feedback' }
+    { value: 'bug_report', label: 'Bug Report' },
+    { value: 'feature_request', label: 'Feature Request' },
+    { value: 'improvement', label: 'Improvement' },
+    { value: 'general', label: 'General Feedback' }
   ];
-
-  useEffect(() => {
-    fetchFeedback();
-  }, [currentPage, filters]);
 
   const fetchFeedback = useCallback(async () => {
     setLoading(true);
@@ -64,6 +62,10 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
       setLoading(false);
     }
   }, [currentPage, filters]);
+
+  useEffect(() => {
+    fetchFeedback();
+  }, [fetchFeedback]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
@@ -107,339 +109,218 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
 
   const getCategoryIcon = (category) => {
     const categoryMap = {
-      bug_report: '🐛',
-      feature_request: '💡',
-      improvement: '⚡',
-      general: '💬'
+      bug_report: <Bug className="w-5 h-5 text-red-500" />,
+      feature_request: <Lightbulb className="w-5 h-5 text-yellow-500" />,
+      improvement: <Zap className="w-5 h-5 text-blue-500" />,
+      general: <MessageCircle className="w-5 h-5 text-green-500" />
     };
-    return categoryMap[category] || '📝';
+    return categoryMap[category] || <FileText className="w-5 h-5 text-gray-500" />;
   };
 
   if (loading && feedback.length === 0) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px' }}>
-        <div style={{ fontSize: '24px', color: '#666' }}>Loading feedback...</div>
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Filters Skeleton */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 animate-pulse">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gray-300 rounded-xl"></div>
+              <div className="h-6 bg-gray-300 rounded w-32"></div>
+            </div>
+            <div className="flex gap-6 flex-wrap items-end">
+              <div className="min-w-[200px]">
+                <div className="h-4 bg-gray-300 rounded w-24 mb-2"></div>
+                <div className="h-12 bg-gray-300 rounded w-full"></div>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-3 bg-gray-100 rounded-lg">
+                <div className="h-4 bg-gray-300 rounded w-64"></div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Feedback List Skeleton */}
+          <div className="space-y-6">
+            <LoadingSkeleton type="card" count={3} />
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div style={{ 
-        backgroundColor: '#f8d7da', 
-        color: '#721c24', 
-        padding: '20px', 
-        borderRadius: '4px', 
-        margin: '20px',
-        border: '1px solid #f5c6cb'
-      }}>
-        Error: {error}
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-8">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl">
+          Error: {error}
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      {/* Filters */}
-      <div style={{ 
-        backgroundColor: 'white', 
-        padding: '25px', 
-        borderRadius: '12px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-        marginBottom: '25px',
-        border: '1px solid #f0f0f0'
-      }}>
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '12px', 
-          marginBottom: '20px' 
-        }}>
-          <div style={{
-            width: '32px',
-            height: '32px',
-            backgroundColor: '#007bff',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '16px'
-          }}>
-            🔍
+    <div className="min-h-screen bg-gray-50 relative">
+      <div className="max-w-6xl mx-auto p-8 relative">
+        {/* Filters */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">
+              <Search className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800">
+              Filter & Search
+            </h3>
           </div>
-          <h3 style={{ 
-            margin: '0', 
-            color: '#333', 
-            fontSize: '18px',
-            fontWeight: '600'
-          }}>
-            Filter & Search
-          </h3>
-        </div>
-        
-        <div style={{ 
-          display: 'flex', 
-          gap: '20px', 
-          flexWrap: 'wrap', 
-          alignItems: 'flex-end' 
-        }}>
-          <div style={{ minWidth: '200px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '8px', 
-              fontSize: '14px', 
-              fontWeight: '500',
-              color: '#555'
-            }}>
-              Category Filter
-            </label>
-            <div style={{ position: 'relative' }}>
+          
+          <div className="flex gap-6 flex-wrap items-end">
+            <div className="min-w-[200px]">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category Filter
+              </label>
               <select
                 value={filters.category}
                 onChange={(e) => handleFilterChange('category', e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  border: '2px solid #e1e5e9',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  backgroundColor: 'white',
-                  color: '#333',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  appearance: 'none',
-                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: 'right 12px center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '16px',
-                  paddingRight: '40px'
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#007bff';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.1)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#e1e5e9';
-                  e.target.style.boxShadow = 'none';
-                }}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-700 bg-white cursor-pointer transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
               >
                 {categories.map(cat => (
                   <option key={cat.value} value={cat.value}>{cat.label}</option>
                 ))}
               </select>
             </div>
-          </div>
-          
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '8px',
-            padding: '8px 16px',
-            backgroundColor: '#f8f9fa',
-            borderRadius: '8px',
-            border: '1px solid #e9ecef'
-          }}>
-            <span style={{ fontSize: '12px', color: '#6c757d' }}>
-              💡 Tip: Use filters to quickly find specific types of feedback
-            </span>
+            
+            <div className="flex items-center gap-2 px-4 py-3 bg-indigo-50 rounded-lg border border-indigo-200">
+              <span className="text-sm text-indigo-700 flex items-center gap-2">
+                <Lightbulb className="w-4 h-4 text-indigo-600" />
+                Tip: Use filters to quickly find specific types of feedback
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Feedback List */}
-      <div style={{ marginBottom: '20px' }}>
-        {feedback.map(item => (
-          <div key={item.id} style={{ 
-            backgroundColor: 'white', 
-            padding: '20px', 
-            borderRadius: '8px',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-            marginBottom: '15px'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
-              <div style={{ flex: 1 }}>
-                <h3 style={{ 
-                  margin: '0 0 10px 0', 
-                  color: '#333',
-                  cursor: 'pointer'
-                }} onClick={() => onViewFeedback(item)}>
-                  {getCategoryIcon(item.category)} {item.title}
-                </h3>
-                <p style={{ 
-                  margin: '0 0 10px 0', 
-                  color: '#666',
-                  lineHeight: '1.5'
-                }}>
-                  {item.description.length > 150 
-                    ? `${item.description.substring(0, 150)}...` 
-                    : item.description
-                  }
-                </p>
+        {/* Feedback List */}
+        <div className="space-y-6 mb-8">
+          {feedback.map(item => (
+            <div key={item.id} className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex-1">
+                  <h3 
+                    className="text-xl font-bold text-gray-800 mb-3 cursor-pointer hover:text-indigo-600 transition-colors"
+                    onClick={() => onViewFeedback(item)}
+                  >
+                    {getCategoryIcon(item.category)} {item.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed mb-3">
+                    {item.description.length > 150 
+                      ? `${item.description.substring(0, 150)}...` 
+                      : item.description
+                    }
+                  </p>
+                  
+                  {/* Comment Count */}
+                  {item.comments_count > 0 && (
+                    <div className="text-indigo-600 font-medium mb-3 flex items-center gap-2">
+                      <MessageSquare className="w-4 h-4" />
+                      {item.comments_count} comment{item.comments_count !== 1 ? 's' : ''}
+                    </div>
+                  )}
+                </div>
                 
-                {/* Comment Count */}
-                {item.comments_count > 0 && (
-                  <div style={{ 
-                    fontSize: '14px', 
-                    color: '#007bff',
-                    marginBottom: '10px'
-                  }}>
-                    💬 {item.comments_count} comment{item.comments_count !== 1 ? 's' : ''}
+                <div className="text-right ml-6">
+                  <div className="text-sm text-gray-500">
+                    {formatDate(item.created_at)}
                   </div>
-                )}
+                </div>
               </div>
-              
-              <div style={{ textAlign: 'right', marginLeft: '20px' }}>
-                <div style={{ fontSize: '12px', color: '#666' }}>
-                  {formatDate(item.created_at)}
+
+              <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                <div className="flex gap-3 items-center">
+                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    {item.category.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  </span>
+                  <span className="text-sm text-gray-600">
+                    By: <strong className="text-gray-800">{item.user?.name || 'Unknown User'}</strong>
+                  </span>
+                </div>
+                
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => onViewFeedback(item)}
+                    className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium flex items-center gap-2"
+                  >
+                    <Eye className="w-4 h-4" />
+                    View
+                  </button>
+                  
+                  {user?.id === item.user_id && (
+                    <>
+                      <button
+                        onClick={() => onEditFeedback(item)}
+                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium flex items-center gap-2"
+                      >
+                        <Edit className="w-4 h-4" />
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium flex items-center gap-2"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        Delete
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
+          ))}
+        </div>
 
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              paddingTop: '15px',
-              borderTop: '1px solid #eee'
-            }}>
-              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: '#666' }}>
-                  By: <strong>{item.user?.name || 'Unknown User'}</strong>
-                </span>
-                <span style={{ 
-                  padding: '2px 8px',
-                  borderRadius: '10px',
-                  fontSize: '12px',
-                  backgroundColor: '#e9ecef',
-                  color: '#495057'
-                }}>
-                  {item.category.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                </span>
-              </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center gap-3 mt-8">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                currentPage === 1 
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                  : 'bg-indigo-600 text-white hover:bg-indigo-700'
+              }`}
+            >
+              Previous
+            </button>
+            
+            <span className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium">
+              Page {currentPage} of {totalPages}
+            </span>
+            
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                currentPage === totalPages 
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                  : 'bg-indigo-600 text-white hover:bg-indigo-700'
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
 
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button
-                  onClick={() => onViewFeedback(item)}
-                  style={{
-                    padding: '6px 12px',
-                    backgroundColor: '#007bff',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  View
-                </button>
-                
-                {user?.id === item.user_id && (
-                  <>
-                    <button
-                      onClick={() => onEditFeedback(item)}
-                      style={{
-                        padding: '6px 12px',
-                        backgroundColor: '#28a745',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        fontSize: '14px',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      style={{
-                        padding: '6px 12px',
-                        backgroundColor: '#dc3545',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        fontSize: '14px',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
-              </div>
+        {feedback.length === 0 && !loading && (
+          <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+            <div className="text-xl text-gray-600 mb-3">
+              No feedback found
+            </div>
+            <div className="text-gray-500">
+              {Object.values(filters).some(f => f) 
+                ? 'Try adjusting your filters' 
+                : 'Be the first to submit feedback!'
+              }
             </div>
           </div>
-        ))}
+        )}
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          gap: '10px',
-          marginTop: '30px'
-        }}>
-          <button
-            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-            disabled={currentPage === 1}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: currentPage === 1 ? '#e9ecef' : '#007bff',
-              color: currentPage === 1 ? '#6c757d' : 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer'
-            }}
-          >
-            Previous
-          </button>
-          
-          <span style={{ 
-            padding: '8px 16px',
-            backgroundColor: '#e9ecef',
-            color: '#495057',
-            borderRadius: '4px'
-          }}>
-            Page {currentPage} of {totalPages}
-          </span>
-          
-          <button
-            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-            disabled={currentPage === totalPages}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: currentPage === totalPages ? '#e9ecef' : '#007bff',
-              color: currentPage === totalPages ? '#6c757d' : 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer'
-            }}
-          >
-            Next
-          </button>
-        </div>
-      )}
-
-      {feedback.length === 0 && !loading && (
-        <div style={{ 
-          textAlign: 'center', 
-          padding: '40px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-        }}>
-          <div style={{ fontSize: '18px', color: '#666', marginBottom: '10px' }}>
-            No feedback found
-          </div>
-          <div style={{ color: '#999' }}>
-            {Object.values(filters).some(f => f) 
-              ? 'Try adjusting your filters' 
-              : 'Be the first to submit feedback!'
-            }
-          </div>
-        </div>
-      )}
     </div>
   );
 };

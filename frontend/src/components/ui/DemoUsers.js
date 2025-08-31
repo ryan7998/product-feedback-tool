@@ -1,4 +1,5 @@
 import React from 'react';
+import { Users } from 'lucide-react';
 
 const DemoUsers = ({ className = '' }) => {
   const demoUsers = [
@@ -17,7 +18,7 @@ const DemoUsers = ({ className = '' }) => {
             <h3 className="text-lg font-semibold text-gray-700">
               Demo Accounts
             </h3>
-            <span className="ml-2 text-red-500">✏️</span>
+            <Users className="ml-2 w-5 h-5 text-indigo-600" />
           </div>
           <p className="text-sm text-gray-600 text-center mb-6">
             Use these demo accounts to test the application:

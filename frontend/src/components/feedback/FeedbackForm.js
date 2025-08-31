@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
 import config from '../../config/config';
+import { Loader } from '../../components/ui';
+import { Edit, FileText } from 'lucide-react';
 
 const FeedbackForm = ({ feedback, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -23,10 +24,10 @@ const FeedbackForm = ({ feedback, onSubmit, onCancel }) => {
   }, [feedback]);
 
   const categories = [
-    { value: 'bug_report', label: '🐛 Bug Report' },
-    { value: 'feature_request', label: '💡 Feature Request' },
-    { value: 'improvement', label: '⚡ Improvement' },
-    { value: 'general', label: '💬 General Feedback' }
+    { value: 'bug_report', label: 'Bug Report' },
+    { value: 'feature_request', label: 'Feature Request' },
+    { value: 'improvement', label: 'Improvement' },
+    { value: 'general', label: 'General Feedback' }
   ];
 
   const handleChange = (e) => {
@@ -75,142 +76,108 @@ const FeedbackForm = ({ feedback, onSubmit, onCancel }) => {
   const isEditing = !!feedback;
 
   return (
-    <div style={{ 
-      backgroundColor: 'white', 
-      padding: '30px', 
-      borderRadius: '8px',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-      maxWidth: '600px',
-      margin: '0 auto'
-    }}>
-      <h2 style={{ marginBottom: '20px', color: '#333' }}>
-        {isEditing ? '✏️ Edit Feedback' : '📝 Submit New Feedback'}
-      </h2>
-      
-      {error && (
-        <div style={{ 
-          backgroundColor: '#f8d7da', 
-          color: '#721c24', 
-          padding: '10px', 
-          borderRadius: '4px', 
-          marginBottom: '20px',
-          border: '1px solid #f5c6cb'
-        }}>
-          {error}
-        </div>
-      )}
+    <div className="min-h-screen bg-gray-50 relative">
+      <div className="max-w-2xl mx-auto p-8 relative">
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center gap-3">
+            {isEditing ? (
+              <>
+                <Edit className="w-8 h-8 text-indigo-600" />
+                Edit Feedback
+              </>
+            ) : (
+              <>
+                <FileText className="w-8 h-8 text-indigo-600" />
+                Submit New Feedback
+              </>
+            )}
+          </h2>
+          
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+              {error}
+            </div>
+          )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="title" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-            Title *
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '16px'
-            }}
-            placeholder="Brief description of your feedback"
-          />
-        </div>
+          <div className="mb-6">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              Title <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              placeholder="Brief description of your feedback"
+            />
+          </div>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="category" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-            Category *
-          </label>
-          <select
-            id="category"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '16px',
-              backgroundColor: 'white'
-            }}
-          >
-            {categories.map(cat => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="mb-6">
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+              Category <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white"
+            >
+              {categories.map(cat => (
+                <option key={cat.value} value={cat.value}>
+                  {cat.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div style={{ marginBottom: '30px' }}>
-          <label htmlFor="description" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-            Description *
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            rows="6"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '16px',
-              resize: 'vertical',
-              fontFamily: 'inherit'
-            }}
-            placeholder="Provide detailed description of your feedback..."
-          />
-        </div>
+          <div className="mb-8">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              Description <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              rows="6"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-vertical"
+              placeholder="Provide detailed description of your feedback..."
+            />
+          </div>
 
-        <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
-          <button
-            type="button"
-            onClick={onCancel}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: '#6c757d',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '16px',
-              cursor: 'pointer'
-            }}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '16px',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.7 : 1
-            }}
-          >
-            {loading 
-              ? (isEditing ? 'Updating...' : 'Submitting...') 
-              : (isEditing ? 'Update Feedback' : 'Submit Feedback')
-            }
-          </button>
+          <div className="flex gap-4 justify-end">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-[140px]"
+            >
+              {loading ? (
+                <>
+                  <Loader variant="spinner" size="sm" />
+                  {isEditing ? 'Updating...' : 'Submitting...'}
+                </>
+              ) : (
+                isEditing ? 'Update Feedback' : 'Submit Feedback'
+              )}
+            </button>
+          </div>
+        </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
