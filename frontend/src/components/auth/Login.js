@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { Button, Input, ErrorMessage, DemoUsers, AuthHeader } from '../ui';
 
 const Login = ({ onSwitchToRegister }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: 'john@example.com',
+    password: 'password'
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -33,102 +34,74 @@ const Login = ({ onSwitchToRegister }) => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
-      <h2>🔐 Login</h2>
-      <p>Welcome back! Please sign in to your account.</p>
+    <div>
+      {/* Subtle Dot Pattern Background */}
+      <div 
+        className="absolute inset-0 opacity-15"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, #6366f1 1px, transparent 0)',
+          backgroundSize: '24px 24px'
+        }}
+      ></div>
       
-      {error && (
-        <div style={{ 
-          backgroundColor: '#f8d7da', 
-          color: '#721c24', 
-          padding: '10px', 
-          borderRadius: '4px', 
-          marginBottom: '20px',
-          border: '1px solid #f5c6cb'
-        }}>
-          {error}
-        </div>
-      )}
-      
-      <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-            Email Address
-          </label>
-          <input
+      {/* Main Content Card */}
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-10 relative z-10">
+        <AuthHeader
+          subtitle="Welcome back! 👋"
+          description="Please sign-in to your account and start the adventure"
+        />
+        
+        <ErrorMessage message={error} className="mb-6" />
+        
+        <form onSubmit={handleSubmit} className="text-left">
+          <Input
+            label="Email Address"
             type="email"
-            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '16px'
-            }}
             placeholder="Enter your email"
+            required
           />
-        </div>
-        
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-            Password
-          </label>
-          <input
+          
+          <Input
+            label="Password"
             type="password"
-            id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '16px'
-            }}
             placeholder="Enter your password"
+            required
           />
+          
+                  <Button
+          type="submit"
+          loading={loading}
+          variant="primary"
+          className="mb-10"
+        >
+          Sign In
+        </Button>
+        </form>
+        
+        <div className="border-t border-gray-200 pt-8 mt-8">
+          <DemoUsers />
         </div>
         
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '12px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            fontSize: '16px',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: loading ? 0.7 : 1
-          }}
-        >
-          {loading ? 'Signing In...' : 'Sign In'}
-        </button>
-      </form>
-      
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <p>Don't have an account?</p>
-        <button
-          onClick={onSwitchToRegister}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#007bff',
-            textDecoration: 'underline',
-            cursor: 'pointer',
-            fontSize: '16px'
-          }}
-        >
-          Create an account
-        </button>
+        {/* Account Switching Section */}
+        <div className="mt-10 pt-8 border-t border-primary-200 text-center">
+          <div className="text-sm text-primary-500 mb-3">
+            New on our platform?
+          </div>
+          <Button
+            onClick={onSwitchToRegister}
+            variant="outline"
+            size="sm"
+            className="min-w-[140px]"
+          >
+            Create an account
+          </Button>
+        </div>
       </div>
     </div>
   );
