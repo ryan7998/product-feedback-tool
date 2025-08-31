@@ -3,8 +3,8 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const Login = ({ onSwitchToRegister }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: 'john@example.com',
+    password: 'password'
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -114,6 +114,83 @@ const Login = ({ onSwitchToRegister }) => {
         </button>
       </form>
       
+      {/* Demo Users Section */}
+      <div style={{ 
+        marginTop: '30px', 
+        padding: '20px', 
+        backgroundColor: '#f8f9fa', 
+        borderRadius: '8px', 
+        border: '1px solid #e9ecef' 
+      }}>
+        <h3 style={{ 
+          margin: '0 0 15px 0', 
+          fontSize: '18px', 
+          color: '#495057',
+          textAlign: 'center'
+        }}>
+          🧪 Demo Accounts
+        </h3>
+        <p style={{ 
+          margin: '0 0 15px 0', 
+          fontSize: '14px', 
+          color: '#6c757d',
+          textAlign: 'center'
+        }}>
+          Use these demo accounts to test the application:
+        </p>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+          gap: '10px',
+          fontSize: '12px'
+        }}>
+          <div style={{ padding: '8px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+            <strong>John Smith</strong><br />
+            john@example.com<br />
+            <span style={{ color: '#28a745' }}>password</span>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+            <strong>Sarah Johnson</strong><br />
+            sarah@example.com<br />
+            <span style={{ color: '#28a745' }}>password</span>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+            <strong>Mike Chen</strong><br />
+            mike@example.com<br />
+            <span style={{ color: '#28a745' }}>password</span>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+            <strong>Emily Davis</strong><br />
+            emily@example.com<br />
+            <span style={{ color: '#28a745' }}>password</span>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+            <strong>Alex Rodriguez</strong><br />
+            alex@example.com<br />
+            <span style={{ color: '#28a745' }}>password</span>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+            <strong>Lisa Wang</strong><br />
+            lisa@example.com<br />
+            <span style={{ color: '#28a745' }}>password</span>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+            <strong>David Brown</strong><br />
+            david@example.com<br />
+            <span style={{ color: '#28a745' }}>password</span>
+          </div>
+        </div>
+        <p style={{ 
+          margin: '15px 0 0 0', 
+          fontSize: '12px', 
+          color: '#6c757d',
+          textAlign: 'center',
+          fontStyle: 'italic'
+        }}>
+          All demo accounts use the same password: <strong>password</strong>
+        </p>
+      </div>
+
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>Don't have an account?</p>
         <button
