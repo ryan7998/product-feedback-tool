@@ -13,12 +13,6 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
   const [newComment, setNewComment] = useState('');
   const [submittingComment, setSubmittingComment] = useState(false);
 
-  useEffect(() => {
-    if (feedback) {
-      fetchComments();
-    }
-  }, [feedback, fetchComments]);
-
   const fetchComments = useCallback(async () => {
     if (!feedback) return;
     
@@ -45,6 +39,12 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
       setLoading(false);
     }
   }, [feedback]);
+
+  useEffect(() => {
+    if (feedback) {
+      fetchComments();
+    }
+  }, [feedback, fetchComments]);
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
