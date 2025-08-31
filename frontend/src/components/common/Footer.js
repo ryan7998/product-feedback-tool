@@ -141,7 +141,7 @@ const Footer = () => {
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <span>© {currentYear} Product Feedback Tool. Made with</span>
               <Heart className="w-4 h-4 text-red-500" />
-              <span>for better user experiences.</span>
+              <span>with Laravel & React.</span>
             </div>
             
             <div className="flex items-center gap-6 text-sm">

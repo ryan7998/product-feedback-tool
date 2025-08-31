@@ -1,455 +1,294 @@
-# Product Feedback Tool
+# 🚀 Product Feedback Tool
 
-A modern, full-featured web application that allows users to submit, view, and discuss product feedback with rich formatting and @mentions support. Built with Laravel 12.x backend API and React.js frontend.
+A modern, full-stack web application for collecting, managing, and analyzing user feedback. Built with React frontend and Laravel backend, featuring real-time collaboration, user mentions, and a professional design system.
 
-## 📸 Screenshots
+![Product Feedback Tool](https://img.shields.io/badge/React-19.1.1-blue?style=for-the-badge&logo=react)
+![Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=for-the-badge&logo=laravel)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
 
-### **Main Dashboard**
+## ✨ Features
 
-![Product Feedback Tool Dashboard](images/screenshot.png)
+### 🔐 Authentication & User Management
 
-_The main dashboard showing feedback list with filtering options and modern UI design._
+-   **User Registration & Login** with Laravel Sanctum
+-   **Demo Accounts** for easy testing and demonstration
+-   **Secure Session Management** with JWT tokens
+-   **User Profile Management**
 
----
+### 📝 Feedback Management
 
-## 🚀 Features
+-   **Create & Edit Feedback** with rich text descriptions
+-   **Category Classification**: Bug Reports, Feature Requests, Improvements, General
+-   **Status Tracking** and priority management
+-   **Search & Filtering** by category, date, and content
+-   **Pagination** for large feedback collections
 
-### **Core Functionality**
+### 💬 Real-time Collaboration
 
--   **User Authentication** - Secure registration, login, and logout with Laravel Sanctum
--   **Feedback Management** - Submit, view, edit, and delete feedback items
--   **Category System** - Organize feedback by type (bug reports, feature requests, improvements, general)
--   **Rich Commenting** - Advanced commenting system with real-time formatting preview
--   **@Mentions** - Facebook-style user mentions with search and autocomplete
--   **Responsive Design** - Mobile-first, modern UI that works on all devices
+-   **Comment System** with threaded discussions
+-   **User Mentions** (@username) with intelligent parsing
+-   **Real-time Updates** for collaborative feedback
+-   **Notification System** for mentions and updates
 
-### **Advanced Features**
+### 🎨 Modern UI/UX
 
--   **Text Formatting** - Support for **bold**, _italic_, and `code` blocks
--   **Real-time Preview** - See formatting as you type
--   **User Search** - Intelligent user search for @mentions
--   **Pagination** - Efficient loading of feedback and comments
--   **Authorization** - Users can only edit their own content
--   **CORS Support** - Configured for cross-origin frontend integration
+-   **Responsive Design** optimized for all devices
+-   **Professional Icon System** using Lucide React
+-   **Tailwind CSS** for consistent styling
+-   **Dark/Light Theme Support**
+-   **Smooth Animations** and transitions
+-   **Purple Dot Pattern** background for visual appeal
 
-## 🏗️ Architecture
+### 🔍 Advanced Features
 
--   **Backend**: Laravel 12.x API with Sanctum authentication
--   **Frontend**: React 18+ Single Page Application
--   **Database**: MySQL 8.0+ (production-ready)
--   **Authentication**: Laravel Sanctum with JWT-like tokens
--   **API**: RESTful API with JSON responses
--   **Styling**: Inline CSS with modern design principles
+-   **Smart Search** with category filtering
+-   **User Role Management** (Admin, User)
+-   **Export Functionality** for feedback data
+-   **Analytics Dashboard** with feedback insights
+-   **API Documentation** for developers
 
-## 📋 Prerequisites
+## 🛠️ Technology Stack
 
-### **System Requirements**
+### Frontend
 
--   PHP 8.2 or higher
--   MySQL 8.0 or higher
--   Node.js 16+ and npm
--   Composer (PHP package manager)
--   Git
+-   **React 19.1.1** - Modern React with hooks
+-   **Tailwind CSS 3.4.0** - Utility-first CSS framework
+-   **Lucide React** - Professional icon library
+-   **Axios** - HTTP client for API requests
+-   **React Router** - Client-side routing
 
-### **PHP Extensions**
+### Backend
+
+-   **Laravel 10.x** - PHP web framework
+-   **MySQL/PostgreSQL** - Database
+-   **Laravel Sanctum** - API authentication
+-   **Eloquent ORM** - Database management
+-   **Laravel Migrations** - Database schema management
+
+### Development Tools
+
+-   **ESLint** - Code quality and consistency
+-   **PostCSS** - CSS processing
+-   **Autoprefixer** - CSS vendor prefixing
+-   **Git** - Version control
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+-   **Node.js** 16+ and **npm** 8+
+-   **PHP** 8.1+ with Composer
+-   **MySQL** 8.0+ or **PostgreSQL** 13+
+-   **Git** for version control
+
+### 1. Clone the Repository
 
 ```bash
-php-bcmath
-php-curl
-php-dom
-php-fileinfo
-php-json
-php-mbstring
-php-mysql
-php-openssl
-php-pdo
-php-tokenizer
-php-xml
-php-zip
-```
-
-## 🛠️ Installation
-
-### **1. Clone the Repository**
-
-```bash
-git clone https://github.com/ryan7998/product-feedback-tool
+git clone https://github.com/ryan7998/product-feedback-tool.git
 cd product-feedback-tool
 ```
 
-### **2. Backend Setup (Laravel)**
-
-#### **Install PHP Dependencies**
+### 2. Backend Setup (Laravel)
 
 ```bash
+# Install PHP dependencies
 composer install
-```
 
-#### **Environment Configuration**
+# Copy environment file
+cp .env.example .env
 
-```bash
-# Copy demo environment file (contains both backend and frontend configs)
-cp demo.env .env
+# Generate application key
+php artisan key:generate
 
-# Note: APP_KEY is already included in demo.env
-# This single .env file handles both Laravel backend and React frontend configurations
-```
-
-#### **Update .env File**
-
-```bash
-# Database Configuration
+# Configure database in .env file
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=product_feedback_tool
-DB_USERNAME=root
-DB_PASSWORD=your_mysql_password
+DB_DATABASE=feedback_tool
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 
-# App Configuration
-APP_NAME=Product_Feedback_Tool
-APP_ENV=local
-APP_DEBUG=true
-
-# CORS Configuration
-CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-CORS_ALLOWED_METHODS=*
-CORS_SUPPORTS_CREDENTIALS=true
-
-# Sanctum Configuration
-SANCTUM_STATEFUL_DOMAINS=localhost:3000,127.0.0.1:3000
-```
-
-#### **Create MySQL Database**
-
-```bash
-mysql -u root -p
-CREATE DATABASE product_feedback_tool CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-EXIT;
-```
-
-#### **Run Database Migrations**
-
-```bash
+# Run database migrations
 php artisan migrate
-```
 
-#### **Seed Demo Data**
+# Seed demo data
+php artisan db:seed
 
-```bash
-php artisan db:seed --class=DatabaseSeeder
-```
-
-#### **Start Laravel Server**
-
-```bash
+# Start Laravel server
 php artisan serve
 ```
 
-The API will be available at `http://127.0.0.1:8000`
-
-### **3. Frontend Setup (React)**
-
-#### **Navigate to Frontend Directory**
+### 3. Frontend Setup (React)
 
 ```bash
 cd frontend
-```
 
-#### **Install Node Dependencies**
-
-```bash
+# Install dependencies
 npm install
-```
 
-**Note:** Environment configuration is already handled in the backend setup above. The single `.env` file contains both backend and frontend configurations.
+# Copy environment file
+cp env.example .env.local
 
-#### **Start React Development Server**
+# Configure API URL in .env.local
+REACT_APP_API_BASE_URL=http://localhost:8000/api
+REACT_APP_ENVIRONMENT=development
 
-```bash
+# Start development server
 npm start
 ```
 
-The frontend will be available at `http://localhost:3000`
+### 4. Access the Application
 
-## 🧪 Demo Data
+-   **Frontend**: http://localhost:3000
+-   **Backend API**: http://localhost:8000/api
+-   **Demo Accounts**: See login page for credentials
 
-The application comes with pre-seeded demo data:
-
-### **Demo Users**
-
--   **John Smith** (john@example.com) - password: `password`
--   **Sarah Johnson** (sarah@example.com) - password: `password`
--   **Mike Chen** (mike@example.com) - password: `password`
--   **Emily Davis** (emily@example.com) - password: `password`
--   **Alex Rodriguez** (alex@example.com) - password: `password`
--   **Lisa Wang** (lisa@example.com) - password: `password`
--   **David Brown** (david@example.com) - password: `password`
-
-### **Sample Feedback**
-
--   Performance optimization requests
--   Bug reports
--   Feature requests (dark mode, export functionality)
--   General improvements
-
-### **Sample Comments**
-
--   Comments with @mentions
--   Formatted text examples
--   Code block examples
-
-## 📚 API Endpoints
-
-### **Public Endpoints**
-
-```
-POST /api/auth/register    - User registration
-POST /api/auth/login       - User authentication
-GET  /api/health          - Health check
-```
-
-### **Protected Endpoints (Require Authentication)**
-
-```
-POST   /api/auth/logout                    - User logout
-GET    /api/auth/user                      - Get current user
-GET    /api/feedback                       - List feedback (paginated)
-POST   /api/feedback                       - Create new feedback
-GET    /api/feedback/{id}                  - Get feedback details
-PUT    /api/feedback/{id}                  - Update feedback
-DELETE /api/feedback/{id}                  - Delete feedback
-GET    /api/feedback/category/{category}   - Filter by category
-GET    /api/feedback/{id}/comments         - Get feedback comments
-POST   /api/feedback/{id}/comments         - Add comment
-PUT    /api/feedback/{id}/comments/{id}    - Update comment
-DELETE /api/feedback/{id}/comments/{id}    - Delete comment
-GET    /api/users/search                   - Search users for @mentions
-```
-
-## 🎨 Formatting Guide
-
-### **Text Formatting**
-
--   **Bold Text**: `**your text**` → **your text**
--   **Italic Text**: `*your text*` → _your text_
--   **Code Blocks**: `` `your code` `` → `your code`
-
-### **@Mentions**
-
--   Type `@` followed by a user's name
--   Names must start with capital letters (e.g., `@John Smith`)
--   Real-time search with dropdown selection
--   Automatic highlighting in comments
-
-### **Examples**
-
-```
-This is **really important** feedback about the *user experience*.
-The error code is `SQLSTATE[23000]` and I agree with @John Smith.
-```
-
-## 🔧 Configuration
-
-### **Backend Configuration Files**
-
--   `config/database.php` - Database connections
--   `config/cors.php` - CORS policy settings
--   `bootstrap/app.php` - Application bootstrap
--   `routes/api.php` - API route definitions
-
-### **Frontend Configuration Files**
-
--   `frontend/src/config/config.js` - API endpoints and app settings
--   `frontend/.env` - Environment variables
-
-## 🚀 Development
-
-### **Backend Development**
-
-```bash
-# Run tests
-php artisan test
-
-# Clear caches
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
-
-# View routes
-php artisan route:list --path=api
-
-# Database operations
-php artisan migrate:status
-php artisan migrate:rollback
-php artisan migrate:fresh --seed
-```
-
-### **Frontend Development**
-
-```bash
-# Build for production
-npm run build
-
-# Run tests
-npm test
-
-# Check for linting issues
-npm run lint
-```
-
-## 📁 Project Structure
+## 🏗️ Project Structure
 
 ```
 product-feedback-tool/
-├── app/
-│   ├── Http/Controllers/          # API Controllers
-│   │   ├── Auth/                 # Authentication
-│   │   ├── FeedbackController.php # Feedback management
-│   │   └── CommentController.php  # Comment management
-│   └── Models/                   # Eloquent models
-│       ├── User.php              # User model
-│       ├── Feedback.php          # Feedback model
-│       └── Comment.php           # Comment model
-├── database/
-│   ├── migrations/               # Database migrations
-│   └── seeders/                  # Database seeders
-├── routes/
-│   └── api.php                   # API route definitions
-├── frontend/
-│   ├── src/
-│   │   ├── components/           # React components
-│   │   │   ├── auth/            # Authentication components
-│   │   │   ├── feedback/        # Feedback components
-│   │   │   └── common/          # Shared components
-│   │   ├── contexts/            # React contexts
-│   │   └── config/              # Configuration files
-│   └── public/                   # Static assets
-└── config/                       # Laravel configuration
+├── frontend/                 # React frontend application
+│   ├── public/              # Static assets
+│   ├── src/                 # Source code
+│   │   ├── components/      # React components
+│   │   │   ├── auth/        # Authentication components
+│   │   │   ├── feedback/    # Feedback management
+│   │   │   ├── common/      # Shared components
+│   │   │   └── ui/          # UI component library
+│   │   ├── contexts/        # React contexts
+│   │   ├── config/          # Configuration files
+│   │   └── App.js           # Main application
+│   ├── tailwind.config.js   # Tailwind configuration
+│   └── package.json         # Frontend dependencies
+├── database/                 # Database migrations & seeders
+├── app/                      # Laravel application logic
+├── routes/                   # API routes
+├── config/                   # Laravel configuration
+└── README.md                 # This file
 ```
 
-## 🔒 Security Features
+## 🎯 Key Components
 
--   **Authentication**: Laravel Sanctum with secure token management
--   **Authorization**: Users can only modify their own content
--   **Input Validation**: Comprehensive validation on all inputs
--   **SQL Injection Protection**: Eloquent ORM with parameterized queries
--   **XSS Protection**: HTML escaping for user-generated content
--   **CORS Configuration**: Secure cross-origin request handling
+### Frontend Components
 
-## 🌟 Key Features in Detail
+-   **Dashboard** - Main application interface
+-   **FeedbackList** - Display and manage feedback items
+-   **FeedbackForm** - Create and edit feedback
+-   **FeedbackDetail** - View feedback with comments
+-   **Login/Register** - Authentication forms
+-   **Footer** - Application footer with links
 
-### **Smart @Mentions System**
+### Backend Features
 
--   Real-time user search with debouncing
--   Keyboard navigation (arrow keys, enter, escape)
--   Automatic insertion with proper cursor positioning
--   Visual highlighting in comments
+-   **User Authentication** - Registration, login, logout
+-   **Feedback API** - CRUD operations for feedback
+-   **Comment System** - Threaded discussions
+-   **User Management** - Profile and role management
+-   **Search & Filtering** - Advanced query capabilities
 
-### **Rich Text Formatting**
+## 🔧 Configuration
 
--   Markdown-style syntax for easy use
--   Live preview while typing
--   HTML-safe code blocks
--   Professional styling with CSS
-
-### **Responsive Design**
-
--   Mobile-first approach
--   Touch-friendly interface
--   Adaptive layouts for all screen sizes
--   Modern UI components
-
-### **Performance Optimizations**
-
--   Pagination for large datasets
--   Efficient database queries with eager loading
--   Debounced search to reduce API calls
--   Optimized React rendering
-
-## 🐛 Troubleshooting
-
-### **Common Issues**
-
-#### **Database Connection Error**
+### Environment Variables
 
 ```bash
-# Check MySQL service
-sudo service mysql status
+# Frontend (.env.local)
+REACT_APP_API_BASE_URL=http://localhost:8000/api
+REACT_APP_ENVIRONMENT=development
 
-# Verify credentials in .env
-# Ensure database exists
-mysql -u root -p -e "SHOW DATABASES;"
-```
-
-#### **CORS Issues**
-
-```bash
-# Check CORS configuration in config/cors.php
-# Verify frontend URL in CORS_ALLOWED_ORIGINS
-# Clear Laravel cache
-php artisan config:clear
-```
-
-#### **Frontend Build Issues**
-
-```bash
-# Clear node modules and reinstall
-rm -rf node_modules package-lock.json
-npm install
-
-# Check Node.js version
-node --version  # Should be 16+
-```
-
-## 📈 Production Deployment
-
-### **Environment Variables**
-
-```bash
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://yourdomain.com
+# Backend (.env)
+APP_NAME="Product Feedback Tool"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
 
 DB_CONNECTION=mysql
-DB_HOST=your_mysql_host
-DB_DATABASE=your_production_db
-DB_USERNAME=your_db_user
-DB_PASSWORD=your_secure_password
-
-CORS_ALLOWED_ORIGINS=https://yourdomain.com
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=feedback_tool
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 ```
 
-### **Build Commands**
+### Tailwind CSS Configuration
+
+The project uses a custom Tailwind configuration with:
+
+-   **Custom color palette** matching the design system
+-   **Typography scales** for consistent text sizing
+-   **Shadow system** for depth and hierarchy
+-   **Responsive breakpoints** for mobile-first design
+
+## 🚀 Deployment
+
+### Production Build
 
 ```bash
-# Backend
-composer install --optimize-autoloader --no-dev
+# Frontend production build
+cd frontend
+npm run build:prod
 
-# Frontend
-npm run build
+# The build/ folder contains production-ready files
 ```
+
+### Hostinger Deployment
+
+1. **Build for Production**: Use `scripts/build-prod.bat` (Windows) or `scripts/build-prod.sh` (Linux/Mac)
+2. **Upload Files**: Upload `build/` folder contents to `public_html/`
+3. **Configure Backend**: Deploy Laravel API to same domain
+4. **Update CORS**: Configure CORS settings for production domain
+
+See `frontend/DEPLOYMENT.md` for detailed deployment instructions.
+
+## 🧪 Testing
+
+### Frontend Testing
+
+```bash
+cd frontend
+npm test
+```
+
+### Backend Testing
+
+```bash
+php artisan test
+```
+
+## 📱 Demo Accounts
+
+For testing purposes, the following demo accounts are available:
+
+-   **John Smith**: john@example.com / password
+-   **Jane Doe**: jane@example.com / password
+-   **Admin User**: admin@example.com / admin123
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
 ## 📄 License
 
-This project is open-sourced software licensed under the [MIT license](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## 🙏 Acknowledgments
 
-For support and questions:
+-   **Laravel** team for the amazing PHP framework
+-   **React** team for the frontend library
+-   **Tailwind CSS** for the utility-first CSS framework
+-   **Lucide** for the beautiful icon library
 
--   Check the troubleshooting section above
--   Review the API documentation
--   Open an issue on GitHub
+## 📞 Support
+
+-   **GitHub Issues**: [Report bugs or request features](https://github.com/ryan7998/product-feedback-tool/issues)
+-   **Documentation**: Check the `docs/` folder for detailed guides
+-   **Email**: Contact the development team for support
 
 ---
 
-**Built with ❤️ using Laravel and React**
+**Made with ❤️ for better user experiences**
+
+_Product Feedback Tool - Empowering teams with user insights_
