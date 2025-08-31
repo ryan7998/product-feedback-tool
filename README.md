@@ -6,6 +6,8 @@ A modern, full-stack web application for collecting, managing, and analyzing use
 ![Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=for-the-badge&logo=laravel)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
 
+![Product Feedback Tool Dashboard](images/screenshot.png)
+
 ## ✨ Features
 
 ### 🔐 Authentication & User Management
