@@ -173,18 +173,23 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
           
           <div className="flex gap-6 flex-wrap items-end">
             <div className="min-w-[200px]">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category Filter
-              </label>
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-700 bg-white cursor-pointer transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-              >
-                {categories.map(cat => (
-                  <option key={cat.value} value={cat.value}>{cat.label}</option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={filters.category}
+                  onChange={(e) => handleFilterChange('category', e.target.value)}
+                  className="w-full px-4 py-3 pr-12 border-2 border-gray-300 rounded-lg text-gray-700 bg-white cursor-pointer transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 appearance-none"
+                >
+                  {categories.map(cat => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  ))}
+                </select>
+                {/* Custom dropdown arrow */}
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
             </div>
             
             <div className="flex items-center gap-2 px-4 py-3 bg-indigo-50 rounded-lg border border-indigo-200">
