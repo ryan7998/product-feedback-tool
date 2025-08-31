@@ -109,6 +109,9 @@ const MentionsInput = ({
       case 'Escape':
         setShowDropdown(false);
         break;
+      default:
+        // Handle other keys normally
+        break;
     }
   };
 

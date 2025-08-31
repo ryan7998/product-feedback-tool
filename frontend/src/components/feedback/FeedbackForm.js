@@ -3,7 +3,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import config from '../../config/config';
 
 const FeedbackForm = ({ feedback, onSubmit, onCancel }) => {
-  const { user } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     description: '',

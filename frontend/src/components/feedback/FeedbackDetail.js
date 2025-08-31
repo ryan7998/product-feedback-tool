@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import config from '../../config/config';
 import MentionsInput from '../common/MentionsInput';
@@ -17,7 +17,7 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
     }
   }, [feedback]);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     if (!feedback) return;
     
     setLoading(true);
@@ -42,7 +42,7 @@ const FeedbackDetail = ({ feedback, onBack, onEdit }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [feedback]);
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();

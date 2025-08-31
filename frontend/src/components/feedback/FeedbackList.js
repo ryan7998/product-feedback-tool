@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import config from '../../config/config';
 
@@ -25,7 +25,7 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
     fetchFeedback();
   }, [currentPage, filters]);
 
-  const fetchFeedback = async () => {
+  const fetchFeedback = useCallback(async () => {
     setLoading(true);
     setError('');
 
@@ -63,7 +63,7 @@ const FeedbackList = ({ onViewFeedback, onEditFeedback, onDeleteFeedback }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, filters]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
