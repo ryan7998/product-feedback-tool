@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Generator - Product Feedback Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .favicon-preview {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .favicon-preview img {
+            width: 64px;
+            height: 64px;
+            margin: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .instructions {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        h1 {
+            color: #1e40af;
+            text-align: center;
+        }
+        h2 {
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Product Feedback Tool - Favicon Generator</h1>
+        
+        <div class="favicon-preview">
+            <h2>Favicon Preview</h2>
+            <img src="favicon.svg" alt="SVG Favicon" title="SVG Favicon (32x32)">
+            <img src="favicon.svg" alt="SVG Favicon Large" title="SVG Favicon (64x64)" style="width: 128px; height: 128px;">
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instructions to Generate ICO File:</h3>
+            <ol>
+                <li><strong>Online Converter:</strong> Use <a href="https://convertio.co/svg-ico/" target="_blank">ConvertIO</a> or <a href="https://favicon.io/favicon-converter/" target="_blank">Favicon.io</a></li>
+                <li><strong>Upload:</strong> Upload the <code>favicon.svg</code> file</li>
+                <li><strong>Download:</strong> Download the generated <code>favicon.ico</code> file</li>
+                <li><strong>Replace:</strong> Replace the existing favicon.ico in the public folder</li>
+            </ol>
+        </div>
+
+        <h2>🎨 Favicon Design Features</h2>
+        <ul>
+            <li><strong>Rocket Symbol:</strong> Represents innovation and progress</li>
+            <li><strong>Color Scheme:</strong> Indigo to purple gradient matching the app theme</li>
+            <li><strong>Professional Look:</strong> Clean, modern design with subtle details</li>
+            <li><strong>Scalable:</strong> SVG format ensures crisp display at all sizes</li>
+            <li><strong>Brand Consistency:</strong> Matches the rocket icon used in the dashboard</li>
+        </ul>
+
+        <h2>🔧 HTML Implementation</h2>
+        <p>Add this to your HTML head section:</p>
+        <div class="code-block">
+&lt;link rel="icon" type="image/svg+xml" href="/favicon.svg" /&gt;
+&lt;link rel="icon" type="image/x-icon" href="/favicon.ico" /&gt;
+&lt;link rel="apple-touch-icon" href="/favicon.svg" /&gt;
+        </div>
+
+        <h2>📱 Browser Support</h2>
+        <ul>
+            <li><strong>Modern Browsers:</strong> SVG favicon (recommended)</li>
+            <li><strong>Legacy Browsers:</strong> ICO favicon (fallback)</li>
+            <li><strong>Mobile Devices:</strong> Apple touch icon support</li>
+        </ul>
+
+        <h2>🎯 Next Steps</h2>
+        <ol>
+            <li>Generate the ICO file using an online converter</li>
+            <li>Place both favicon.svg and favicon.ico in the public folder</li>
+            <li>Update your HTML to reference both favicon formats</li>
+            <li>Test the favicon across different browsers and devices</li>
+        </ol>
+    </div>
+</body>
+</html>
