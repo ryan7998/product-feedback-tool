@@ -1,61 +1,296 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 Product Feedback Tool
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern, full-stack web application for collecting, managing, and analyzing user feedback. Built with React frontend and Laravel backend, featuring real-time collaboration, user mentions, and a professional design system.
 
-## About Laravel
+![Product Feedback Tool](https://img.shields.io/badge/React-19.1.1-blue?style=for-the-badge&logo=react)
+![Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=for-the-badge&logo=laravel)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![Product Feedback Tool Dashboard](images/screenshot.png)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🔐 Authentication & User Management
 
-## Learning Laravel
+-   **User Registration & Login** with Laravel Sanctum
+-   **Demo Accounts** for easy testing and demonstration
+-   **Secure Session Management** with JWT tokens
+-   **User Profile Management**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📝 Feedback Management
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   **Create & Edit Feedback** with rich text descriptions
+-   **Category Classification**: Bug Reports, Feature Requests, Improvements, General
+-   **Status Tracking** and priority management
+-   **Search & Filtering** by category, date, and content
+-   **Pagination** for large feedback collections
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 💬 Real-time Collaboration
 
-## Laravel Sponsors
+-   **Comment System** with threaded discussions
+-   **User Mentions** (@username) with intelligent parsing
+-   **Real-time Updates** for collaborative feedback
+-   **Notification System** for mentions and updates
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🎨 Modern UI/UX
 
-### Premium Partners
+-   **Responsive Design** optimized for all devices
+-   **Professional Icon System** using Lucide React
+-   **Tailwind CSS** for consistent styling
+-   **Dark/Light Theme Support**
+-   **Smooth Animations** and transitions
+-   **Purple Dot Pattern** background for visual appeal
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 🔍 Advanced Features
 
-## Contributing
+-   **Smart Search** with category filtering
+-   **User Role Management** (Admin, User)
+-   **Export Functionality** for feedback data
+-   **Analytics Dashboard** with feedback insights
+-   **API Documentation** for developers
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🛠️ Technology Stack
 
-## Code of Conduct
+### Frontend
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   **React 19.1.1** - Modern React with hooks
+-   **Tailwind CSS 3.4.0** - Utility-first CSS framework
+-   **Lucide React** - Professional icon library
+-   **Axios** - HTTP client for API requests
+-   **React Router** - Client-side routing
 
-## Security Vulnerabilities
+### Backend
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   **Laravel 10.x** - PHP web framework
+-   **MySQL/PostgreSQL** - Database
+-   **Laravel Sanctum** - API authentication
+-   **Eloquent ORM** - Database management
+-   **Laravel Migrations** - Database schema management
 
-## License
+### Development Tools
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   **ESLint** - Code quality and consistency
+-   **PostCSS** - CSS processing
+-   **Autoprefixer** - CSS vendor prefixing
+-   **Git** - Version control
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+-   **Node.js** 16+ and **npm** 8+
+-   **PHP** 8.1+ with Composer
+-   **MySQL** 8.0+ or **PostgreSQL** 13+
+-   **Git** for version control
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/ryan7998/product-feedback-tool.git
+cd product-feedback-tool
+```
+
+### 2. Backend Setup (Laravel)
+
+```bash
+# Install PHP dependencies
+composer install
+
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+# Configure database in .env file
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=feedback_tool
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+# Run database migrations
+php artisan migrate
+
+# Seed demo data
+php artisan db:seed
+
+# Start Laravel server
+php artisan serve
+```
+
+### 3. Frontend Setup (React)
+
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+
+# Copy environment file
+cp env.example .env.local
+
+# Configure API URL in .env.local
+REACT_APP_API_BASE_URL=http://localhost:8000/api
+REACT_APP_ENVIRONMENT=development
+
+# Start development server
+npm start
+```
+
+### 4. Access the Application
+
+-   **Frontend**: http://localhost:3000
+-   **Backend API**: http://localhost:8000/api
+-   **Demo Accounts**: See login page for credentials
+
+## 🏗️ Project Structure
+
+```
+product-feedback-tool/
+├── frontend/                 # React frontend application
+│   ├── public/              # Static assets
+│   ├── src/                 # Source code
+│   │   ├── components/      # React components
+│   │   │   ├── auth/        # Authentication components
+│   │   │   ├── feedback/    # Feedback management
+│   │   │   ├── common/      # Shared components
+│   │   │   └── ui/          # UI component library
+│   │   ├── contexts/        # React contexts
+│   │   ├── config/          # Configuration files
+│   │   └── App.js           # Main application
+│   ├── tailwind.config.js   # Tailwind configuration
+│   └── package.json         # Frontend dependencies
+├── database/                 # Database migrations & seeders
+├── app/                      # Laravel application logic
+├── routes/                   # API routes
+├── config/                   # Laravel configuration
+└── README.md                 # This file
+```
+
+## 🎯 Key Components
+
+### Frontend Components
+
+-   **Dashboard** - Main application interface
+-   **FeedbackList** - Display and manage feedback items
+-   **FeedbackForm** - Create and edit feedback
+-   **FeedbackDetail** - View feedback with comments
+-   **Login/Register** - Authentication forms
+-   **Footer** - Application footer with links
+
+### Backend Features
+
+-   **User Authentication** - Registration, login, logout
+-   **Feedback API** - CRUD operations for feedback
+-   **Comment System** - Threaded discussions
+-   **User Management** - Profile and role management
+-   **Search & Filtering** - Advanced query capabilities
+
+## 🔧 Configuration
+
+### Environment Variables
+
+```bash
+# Frontend (.env.local)
+REACT_APP_API_BASE_URL=http://localhost:8000/api
+REACT_APP_ENVIRONMENT=development
+
+# Backend (.env)
+APP_NAME="Product Feedback Tool"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=feedback_tool
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+### Tailwind CSS Configuration
+
+The project uses a custom Tailwind configuration with:
+
+-   **Custom color palette** matching the design system
+-   **Typography scales** for consistent text sizing
+-   **Shadow system** for depth and hierarchy
+-   **Responsive breakpoints** for mobile-first design
+
+## 🚀 Deployment
+
+### Production Build
+
+```bash
+# Frontend production build
+cd frontend
+npm run build:prod
+
+# The build/ folder contains production-ready files
+```
+
+### Hostinger Deployment
+
+1. **Build for Production**: Use `scripts/build-prod.bat` (Windows) or `scripts/build-prod.sh` (Linux/Mac)
+2. **Upload Files**: Upload `build/` folder contents to `public_html/`
+3. **Configure Backend**: Deploy Laravel API to same domain
+4. **Update CORS**: Configure CORS settings for production domain
+
+See `frontend/DEPLOYMENT.md` for detailed deployment instructions.
+
+## 🧪 Testing
+
+### Frontend Testing
+
+```bash
+cd frontend
+npm test
+```
+
+### Backend Testing
+
+```bash
+php artisan test
+```
+
+## 📱 Demo Accounts
+
+For testing purposes, the following demo accounts are available:
+
+-   **John Smith**: john@example.com / password
+-   **Jane Doe**: jane@example.com / password
+-   **Admin User**: admin@example.com / admin123
+
+## 🤝 Contributing
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+-   **Laravel** team for the amazing PHP framework
+-   **React** team for the frontend library
+-   **Tailwind CSS** for the utility-first CSS framework
+-   **Lucide** for the beautiful icon library
+
+## 📞 Support
+
+-   **GitHub Issues**: [Report bugs or request features](https://github.com/ryan7998/product-feedback-tool/issues)
+-   **Documentation**: Check the `docs/` folder for detailed guides
+-   **Email**: Contact the development team for support
+
+---
+
+**Made with ❤️ for better user experiences**
+
+_Product Feedback Tool - Empowering teams with user insights_

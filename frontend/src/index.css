@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply w-full px-4 py-3.5 bg-gradient-to-r from-purple-600 to-purple-500 text-white font-semibold rounded-lg shadow-medium transition-all duration-200 hover:shadow-large hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed;
+  }
+  
+  .btn-success {
+    @apply w-full px-4 py-3.5 bg-gradient-to-r from-success-600 to-success-500 text-white font-semibold rounded-lg shadow-medium transition-all duration-200 hover:shadow-large hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed;
+  }
+  
+  .form-input {
+    @apply w-full px-4 py-3.5 border border-primary-200 rounded-lg text-primary-700 bg-white transition-all duration-200 focus:border-purple-600 focus:ring-4 focus:ring-purple-100 focus:outline-none placeholder:text-primary-400;
+  }
+  
+  .form-label {
+    @apply block mb-2 text-sm font-semibold text-primary-700;
+  }
+  
+  .form-group {
+    @apply mb-5;
+  }
+  
+  .error-message {
+    @apply bg-error-50 text-error-600 px-4 py-3 rounded-lg border border-error-200 text-sm flex items-center gap-2;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-soft border border-primary-100;
+  }
+  
+  .demo-user-card {
+    @apply p-3 bg-white rounded-lg border border-primary-200 shadow-soft;
+  }
+}
