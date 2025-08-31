@@ -1,11 +1,14 @@
 // Frontend configuration
 const config = {
   // API Configuration
-  API_BASE_URL: process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/api',
+  API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api',
   
   // App Configuration
   APP_NAME: process.env.REACT_APP_NAME || 'Product Feedback Tool',
   APP_VERSION: process.env.REACT_APP_VERSION || '1.0.0',
+  
+  // Environment
+  ENVIRONMENT: process.env.REACT_APP_ENVIRONMENT || 'development',
   
   // Feature Flags
   ENABLE_DEBUG: process.env.REACT_APP_ENABLE_DEBUG === 'true' || process.env.NODE_ENV === 'development',
