@@ -3,7 +3,7 @@
 A modern, full-stack web application for collecting, managing, and analyzing user feedback. Built with React frontend and Laravel backend, featuring real-time collaboration, user mentions, and a professional design system.
 
 ![Product Feedback Tool](https://img.shields.io/badge/React-19.1.1-blue?style=for-the-badge&logo=react)
-![Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=for-the-badge&logo=laravel)
+![Laravel](https://img.shields.io/badge/Laravel-12.0-red?style=for-the-badge&logo=laravel)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
 
 ![Product Feedback Tool Dashboard](images/screenshot.png)
@@ -54,24 +54,27 @@ A modern, full-stack web application for collecting, managing, and analyzing use
 ### Frontend
 
 -   **React 19.1.1** - Modern React with hooks
+-   **React DOM 19.1.1** - React DOM rendering
 -   **Tailwind CSS 3.4.0** - Utility-first CSS framework
--   **Lucide React** - Professional icon library
--   **Axios** - HTTP client for API requests
--   **React Router** - Client-side routing
+-   **Lucide React 0.542.0** - Professional icon library
+-   **Axios 1.11.0** - HTTP client for API requests
+-   **React Router DOM 7.8.0** - Client-side routing
 
 ### Backend
 
--   **Laravel 10.x** - PHP web framework
+-   **Laravel 12.0** - PHP web framework
+-   **PHP 8.2+** - Server-side language
 -   **MySQL/PostgreSQL** - Database
--   **Laravel Sanctum** - API authentication
+-   **Laravel Sanctum 4.2** - API authentication
 -   **Eloquent ORM** - Database management
 -   **Laravel Migrations** - Database schema management
 
 ### Development Tools
 
 -   **ESLint** - Code quality and consistency
--   **PostCSS** - CSS processing
--   **Autoprefixer** - CSS vendor prefixing
+-   **PostCSS 8.5.6** - CSS processing
+-   **Autoprefixer 10.4.21** - CSS vendor prefixing
+-   **Tailwind CSS 3.4.0** - CSS framework
 -   **Git** - Version control
 
 ## 🚀 Quick Start
@@ -79,7 +82,7 @@ A modern, full-stack web application for collecting, managing, and analyzing use
 ### Prerequisites
 
 -   **Node.js** 16+ and **npm** 8+
--   **PHP** 8.1+ with Composer
+-   **PHP** 8.2+ with Composer
 -   **MySQL** 8.0+ or **PostgreSQL** 13+
 -   **Git** for version control
 
