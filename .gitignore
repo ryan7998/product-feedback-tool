@@ -23,3 +23,13 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 frontend/node_modules
+# React build files
+/public/static/
+/public/index.html
+/public/asset-manifest.json
+/public/favicon.svg
+/public/logo192.png
+/public/logo512.png
+/public/manifest.json
+/public/FAVICON_README.md
+/public/favicon-generator.html
